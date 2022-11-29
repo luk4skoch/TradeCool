@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 public class Product {
 
+    private int id;
+
     private String title;
 
     private String description;
@@ -16,13 +18,22 @@ public class Product {
 
     private ProductStatus status;
 
-    public Product(String title, String description, String imagePath, String category, int userId, ProductStatus status) {
+    public Product(int id, String title, String description, String imagePath, String category, int userId, ProductStatus status) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.imagePath = imagePath;
         this.category = category;
         this.userId = userId;
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
