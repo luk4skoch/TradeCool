@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("api/product")
 public class ProductController {
 
     @Autowired
