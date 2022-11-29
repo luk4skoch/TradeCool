@@ -46,4 +46,20 @@ public class ProductService {
     public void addProductFromJsonString(String jsonString) {
         productList.add(getProductFromJsonString(jsonString));
     }
+
+    /**
+     * Edits Product with data from a jsonString.
+     * ProductId (id) and userId won't change.
+     * @param id
+     * @param jsonString
+     */
+    public void editProductById(int id, String jsonString) {
+        Product product = getProductById(id);
+        JSONObject json = new JSONObject(jsonString);
+        product.setTitle(json.getString("title"));
+        product.setDescription(json.getString("description"));
+        product.setImagePath(json.getString("imagePath"));
+        product.setCategory(json.getString("category"));
+        product.setStatus(getProductStatusByString(json.getString("status")));
+    }
 }
