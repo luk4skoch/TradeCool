@@ -14,6 +14,7 @@ public class ProductService {
 
     // temporarily prefilled
     private List<Product> productList = new ArrayList<>();
+    private int nextFreeProductId = 2;
 
     public ProductService() {
         productList.add(new Product(0, "Vegetables", "A box of vegetables from my farm.", null, "food", 1234, ProductStatus.OPEN));
@@ -25,12 +26,18 @@ public class ProductService {
     }
 
     public Product getProductById(int id) {
-        return productList.get(id);
+        for (Product product : productList) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public Product getProductFromJsonString(String jsonString) {
         JSONObject json = new JSONObject(jsonString);
-        int id = productList.size();
+        int id = nextFreeProductId;
+        nextFreeProductId++;
         String title = json.getString("title");
         String description = json.getString("description");
         String imagePath = json.getString("imagePath");
@@ -64,5 +71,9 @@ public class ProductService {
         product.setImagePath(json.getString("imagePath"));
         product.setCategory(json.getString("category"));
         product.setStatus(getProductStatusByString(json.getString("status")));
+    }
+
+    public void deleteProductById(int id) {
+        productList.remove(getProductById(id));
     }
 }
