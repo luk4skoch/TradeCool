@@ -5,6 +5,7 @@ import com.codecool.tauschcool.model.ProductStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,10 +13,12 @@ import java.util.List;
 public class ProductService {
 
     // temporarily prefilled
-    private List<Product> productList = List.of(
-            new Product(0, "Vegetables", "A box of vegetables from my farm.", null, "food", 1234, ProductStatus.OPEN),
-            new Product(1, "Plumber work", "I am a plumber and I can repair your toilet.", "wrong path", "service", 333, ProductStatus.OPEN)
-    );
+    private List<Product> productList = new ArrayList<>();
+
+    public ProductService() {
+        productList.add(new Product(0, "Vegetables", "A box of vegetables from my farm.", null, "food", 1234, ProductStatus.OPEN));
+        productList.add(new Product(1, "Plumber work", "I am a plumber and I can repair your toilet.", "wrong path", "service", 333, ProductStatus.OPEN));
+    }
 
     public List<Product> getProductList() {
         return productList;

@@ -84,6 +84,19 @@ public class Product {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", category='" + category + '\'' +
+                ", userId=" + userId +
+                ", status=" + status +
+                '}';
+    }
+
     public JSONObject getJson() {
         JSONObject json = new JSONObject();
         json.append("title", title);
