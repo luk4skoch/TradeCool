@@ -3,6 +3,7 @@ package com.codecool.tauschcool.controller;
 import com.codecool.tauschcool.model.Product;
 import com.codecool.tauschcool.model.ProductStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +20,14 @@ public class EndpointController {
             new Product(1, "Plumber work", "I am a plumber and I can repair your toilet.", "wrong path", "service", 333, ProductStatus.OPEN)
     );
 
-    @GetMapping(value = "list")
+    @GetMapping(value = "product/all")
     public List<Product> getProductList() {
         return productList;
+    }
+
+    @GetMapping("product/{id}")
+    public Product getProductById(@PathVariable String id) {
+        return productList.get(Integer.parseInt(id));
     }
 
 
