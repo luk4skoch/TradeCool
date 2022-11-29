@@ -13,9 +13,9 @@ export default function Product(props) {
             <Row>
                 <Col md={8}>
                     <h3>
-                        {product.name}
+                        {product.title}
                     </h3>
-                    <Image src={product.img || "https://placehold.it/"} width='90%' />
+                    <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
                     <p className="mt-3">{product.description}</p>
                 </Col>
                 <Col md={4} className="mt-5">

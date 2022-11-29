@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -11,20 +11,30 @@ import Sidebar from './components/Sidebar';
 
 
 function App() {
-  const [products, setProducts] = useState(productsMock);
+  const [products, setProducts] = useState([]);
   const [editOn, setEditOn] = useState(false);
-  const [currentProductId, setCurrentProductId] = useState(1);
+  const [currentProductId, setCurrentProductId] = useState(0);
+
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/product/all")
+    .then(data => data.json())
+    .then(data => setProducts(data))
+  }, [products])
+
 
   const findCurrentProduct = () => {
     return (products.find(product => {
-        return product.id.toString() === currentProductId.toString()}) || {
-          "name": "",
-          "description": "",
-          "img": "",
-          "user_id":null,
-          "status":"open"
-        }
-    )}
+      return product.id.toString() === currentProductId.toString()
+    }) || {
+      "title": "",
+      "description": "",
+      "imagePath": "",
+      "userId": null,
+      "status": "open"
+    }
+    )
+  }
 
   return (
     <div className="App">
@@ -49,20 +59,20 @@ export default App;
 
 const productsMock = [
   {
-      name: 'Product1',
-      description: 'productsad',
-      img: '',
-      id: 1,
-      user_id: null,
-      category: 'tablet',
-      status: 'open'
+    title: 'Product1',
+    description: 'productsad',
+    imagePath: '',
+    id: 1,
+    userId: null,
+    category: 'tablet',
+    status: 'open'
   },
   {
-      name: 'Product2',
-      description: 'productsad',
-      img: '',
-      id: 2,
-      user_id: null,
-      category: 'tablet',
-      status: 'closed'
+    title: 'Product2',
+    description: 'productsad',
+    imagePath: '',
+    id: 2,
+    userId: null,
+    category: 'tablet',
+    status: 'closed'
   }]

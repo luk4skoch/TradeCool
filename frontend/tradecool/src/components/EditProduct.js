@@ -11,13 +11,12 @@ export default function EditProduct(props) {
     const product = props.product;
     const [formData, setFormData] = useState({
         "id" : (product.id),
-        "title": (product.name),
-        "img": (product.img),
+        "title": (product.title),
+        "imagePath": (product.imagePath),
         "description": (product.description),
-        "status": (product.status)
+        "status": (product.status),
+        "category": "no"
     });
-    console.log("form data");
-    console.log(formData)
     const handleFormData = (event) => {
         setFormData(prevFormData => {
             return {
@@ -28,6 +27,27 @@ export default function EditProduct(props) {
     }
 
     const sendFormData = () => {
+        let method, url;
+        url = 'http://localhost:8080/api/product/';
+        if (formData.id) {
+            // edit
+            method =  'PUT'
+            url += formData.id;
+        } else {
+            // add
+            method =  'POST'
+        }
+        fetch(url, {
+            method: method,
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(formData)
+        })
         props.setEditOn(false);
     };
 
@@ -56,13 +76,13 @@ export default function EditProduct(props) {
                         />
                     </h3>
 
-                    <Image src={product.img || "https://placehold.it/"} width='90%' />
+                    <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
                     
                     <p className="mt-3">
                     Photo: 
                         <input type="file"
-                            name="img"
-                            value={formData.img}
+                            name="imagePath"
+                            value={formData.imagePath}
                             onChange={handleFormData} />
                     </p>
 

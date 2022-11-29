@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 
 export default function Sidebar(props) {
     const handleAdd = () => {
-        props.setCurrentProductId(0);
+        props.setCurrentProductId(-1);
         props.setEditOn(true);
     }
     const productList = props.products.map(product => {
