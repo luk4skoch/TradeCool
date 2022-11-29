@@ -5,6 +5,7 @@ import com.codecool.tauschcool.model.ProductStatus;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,22 +13,31 @@ import java.util.List;
 public class ProductService {
 
     // temporarily prefilled
-    private List<Product> productList = List.of(
-            new Product(0, "Vegetables", "A box of vegetables from my farm.", null, "food", 1234, ProductStatus.OPEN),
-            new Product(1, "Plumber work", "I am a plumber and I can repair your toilet.", "wrong path", "service", 333, ProductStatus.OPEN)
-    );
+    private List<Product> productList = new ArrayList<>();
+    private int nextFreeProductId = 2;
+
+    public ProductService() {
+        productList.add(new Product(0, "Vegetables", "A box of vegetables from my farm.", null, "food", 1234, ProductStatus.OPEN));
+        productList.add(new Product(1, "Plumber work", "I am a plumber and I can repair your toilet.", "wrong path", "service", 333, ProductStatus.OPEN));
+    }
 
     public List<Product> getProductList() {
         return productList;
     }
 
     public Product getProductById(int id) {
-        return productList.get(id);
+        for (Product product : productList) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public Product getProductFromJsonString(String jsonString) {
         JSONObject json = new JSONObject(jsonString);
-        int id = productList.size();
+        int id = nextFreeProductId;
+        nextFreeProductId++;
         String title = json.getString("title");
         String description = json.getString("description");
         String imagePath = json.getString("imagePath");
@@ -45,5 +55,25 @@ public class ProductService {
 
     public void addProductFromJsonString(String jsonString) {
         productList.add(getProductFromJsonString(jsonString));
+    }
+
+    /**
+     * Edits Product with data from a jsonString.
+     * ProductId (id) and userId won't change.
+     * @param id
+     * @param jsonString
+     */
+    public void editProductById(int id, String jsonString) {
+        Product product = getProductById(id);
+        JSONObject json = new JSONObject(jsonString);
+        product.setTitle(json.getString("title"));
+        product.setDescription(json.getString("description"));
+        product.setImagePath(json.getString("imagePath"));
+        product.setCategory(json.getString("category"));
+        product.setStatus(getProductStatusByString(json.getString("status")));
+    }
+
+    public void deleteProductById(int id) {
+        productList.remove(getProductById(id));
     }
 }

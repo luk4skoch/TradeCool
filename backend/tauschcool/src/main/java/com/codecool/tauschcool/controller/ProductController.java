@@ -21,8 +21,8 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable String id) {
-        return service.getProductById(Integer.parseInt(id));
+    public Product getProductById(@PathVariable int id) {
+        return service.getProductById(id);
     }
 
     @PostMapping()
@@ -30,5 +30,13 @@ public class ProductController {
         service.addProductFromJsonString(jsonString);
     }
 
+    @PutMapping("/{id}")
+    public void editProductById(@PathVariable int id, @RequestBody String jsonString) {
+        service.editProductById(id, jsonString);
+    }
 
+    @DeleteMapping("/{id}")
+    public void deleteProductById(@PathVariable int id) {
+        service.deleteProductById(id);
+    }
 }
