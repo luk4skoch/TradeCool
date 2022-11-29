@@ -1,5 +1,7 @@
 package com.codecool.tauschcool.model;
 
+import org.json.JSONObject;
+
 public class Product {
 
     private String title;
@@ -69,5 +71,16 @@ public class Product {
 
     public void setStatus(ProductStatus status) {
         this.status = status;
+    }
+
+    public JSONObject getJson() {
+        JSONObject json = new JSONObject();
+        json.append("title", title);
+        json.append("description", description);
+        json.append("imagePath", imagePath);
+        json.append("category", category);
+        json.append("userId", userId);
+        json.append("status", status.name());
+        return json;
     }
 }
