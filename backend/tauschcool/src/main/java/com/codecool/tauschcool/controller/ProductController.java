@@ -34,4 +34,9 @@ public class ProductController {
     public void editProductById(@PathVariable int id, @RequestBody String jsonString) {
         service.editProductById(id, jsonString);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProductById(@PathVariable int id) {
+        service.deleteProductById(id);
+    }
 }
