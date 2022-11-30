@@ -17,6 +17,7 @@ export default function EditProduct(props) {
         "status": (product.status),
         "category": "no"
     });
+
     const handleFormData = (event) => {
         setFormData(prevFormData => {
             return {
@@ -28,7 +29,7 @@ export default function EditProduct(props) {
 
     const sendFormData = () => {
         let method, url;
-        url = 'http://localhost:8080/api/product/';
+        url = 'http://localhost:8080/api/product';
         if (formData.id) {
             // edit
             method =  'PUT'
@@ -52,7 +53,7 @@ export default function EditProduct(props) {
     };
 
     const currentProductToDefault = () => {
-        props.setCurrentProductId(1);
+        props.setCurrentProductId(0);
         props.setEditOn(false);
     }
 
@@ -80,7 +81,7 @@ export default function EditProduct(props) {
                     
                     <p className="mt-3">
                     Photo: 
-                        <input type="file"
+                        <input
                             name="imagePath"
                             value={formData.imagePath}
                             onChange={handleFormData} />
@@ -89,8 +90,9 @@ export default function EditProduct(props) {
                     <textarea 
                     name="description"
                     className="mt-3" rows="5" cols="36"
-                    onChange={handleFormData}>
-                    {formData.description}</textarea>
+                    onChange={handleFormData}
+                    value={formData.description}>
+                    </textarea>
 
                     <p className="mt-3">Status:
                          <select name="status"
