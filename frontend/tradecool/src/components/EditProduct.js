@@ -51,7 +51,7 @@ export default function EditProduct(props) {
             },
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(formData)
-        })
+        }).then(data => data.json().then((data) => data.id !== undefined && props.setCurrentProductId(data.id)));
         props.setEditOn(false);
     };
 
@@ -76,6 +76,7 @@ export default function EditProduct(props) {
                         name="title" 
                         value={formData.title}
                         onChange={handleFormData}
+                        required
                         />
                     </h3>
 
