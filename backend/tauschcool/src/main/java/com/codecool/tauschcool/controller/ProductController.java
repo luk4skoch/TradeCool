@@ -29,7 +29,7 @@ public class ProductController {
 
     @PostMapping()
     public Product addNewProduct(@RequestBody String jsonString) {
-        service.addProductFromJsonString(jsonString);
+//        service.addProductFromJsonString(jsonString);
         return service.addProductFromJsonString(jsonString);
     }
 
