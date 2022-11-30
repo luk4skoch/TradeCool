@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react'
 
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';

@@ -1,8 +1,7 @@
-
 import Stack from 'react-bootstrap/Stack';
 import ProductBar from './ProductBar';
 import Button from 'react-bootstrap/Button';
-
+import React from 'react'
 
 export default function Sidebar(props) {
     const handleAdd = () => {

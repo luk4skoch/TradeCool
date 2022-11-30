@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import React from 'react'
 
-import './App.css';
+//import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import NavElement from './components/NavElement';
 import Product from './components/Product';
 import EditProduct from './components/EditProduct';

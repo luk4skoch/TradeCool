@@ -1,4 +1,5 @@
 import Image from 'react-bootstrap/Image';
+import React from 'react'
 
 
 export default function ProductBar(props) {
