@@ -79,7 +79,7 @@ export default function EditProduct(props) {
                         />
                     </h3>
 
-                    <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
+                    {product.id !== undefined && <Image src={product.imagePath || "https://placehold.it/"} width='90%' />}
                     
                     <p className="mt-3">
                     Photo: 
