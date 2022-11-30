@@ -13,13 +13,16 @@ public class User {
 
     private String location;
 
+    private String imagePath;
+
     private List<Product> productList;
 
-    public User(int id, String name, String email, String location) {
+    public User(int id, String name, String email, String location, String imagePath) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.location = location;
+        this.imagePath = imagePath;
         productList = new ArrayList<>();
     }
 
@@ -61,6 +64,14 @@ public class User {
 
     public void addProduct(List<Product> productList) {
         this.productList = productList;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     @Override
