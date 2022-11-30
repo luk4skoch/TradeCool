@@ -45,7 +45,7 @@ public class ProductService {
         String imagePath = json.getString("imagePath");
         String category = json.getString("category");
         int userId = json.getInt("userId");
-        ProductStatus status = getProductStatusByString(json.getString("status"));
+        ProductStatus status = getProductStatusByString(json.getString("status").toUpperCase());
         return new Product(id, title, description, imagePath, category, userId, status);
     }
 
@@ -72,7 +72,7 @@ public class ProductService {
         product.setDescription(json.getString("description"));
         product.setImagePath(json.getString("imagePath"));
         product.setCategory(json.getString("category"));
-        product.setStatus(getProductStatusByString(json.getString("status")));
+        product.setStatus(getProductStatusByString(json.getString("status").toUpperCase()));
     }
 
     public void deleteProductById(int id) {

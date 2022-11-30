@@ -1,9 +1,13 @@
 package com.codecool.tauschcool.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.json.JSONObject;
 
 public class Product {
 
+
+    @Id
     private int id;
 
     private String title;

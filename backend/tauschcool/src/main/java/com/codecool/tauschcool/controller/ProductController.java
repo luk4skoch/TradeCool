@@ -1,15 +1,16 @@
 package com.codecool.tauschcool.controller;
 
 import com.codecool.tauschcool.model.Product;
-import com.codecool.tauschcool.model.ProductStatus;
 import com.codecool.tauschcool.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("api/product")
 public class ProductController {
 
@@ -27,8 +28,9 @@ public class ProductController {
     }
 
     @PostMapping()
-    public void addNewProduct(@RequestBody String jsonString) {
+    public ResponseEntity<Object> addNewProduct(@RequestBody String jsonString) {
         service.addProductFromJsonString(jsonString);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
