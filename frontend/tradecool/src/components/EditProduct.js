@@ -15,7 +15,8 @@ export default function EditProduct(props) {
         "imagePath": (product.imagePath),
         "description": (product.description),
         "status": (product.status),
-        "category": "no"
+        "category": "no",
+        "userId": 0
     });
 
     const handleFormData = (event) => {
@@ -25,15 +26,16 @@ export default function EditProduct(props) {
                 [event.target.name]: event.target.value || event.target.innerText
             }
         })
+        console.log(formData)
     }
 
     const sendFormData = () => {
         let method, url;
         url = 'http://localhost:8080/api/product';
-        if (formData.id) {
+        if (formData.id !== undefined) {
             // edit
             method =  'PUT'
-            url += formData.id;
+            url += '/' + formData.id;
         } else {
             // add
             method =  'POST'
@@ -56,7 +58,6 @@ export default function EditProduct(props) {
         props.setCurrentProductId(0);
         props.setEditOn(false);
     }
-
     return (
         <Container>
             <Row>
@@ -99,9 +100,9 @@ export default function EditProduct(props) {
                             value={formData.status}
                             onChange={handleFormData}
                         >
-                            <option value="open">open</option>
-                            <option value="closed">closed</option>
-                            <option value="reserved">reserved</option>
+                            <option value="OPEN">open</option>
+                            <option value="SOLD">sold</option>
+                            <option value="RESERVED">reserved</option>
                         </select>
                     </p>
 
