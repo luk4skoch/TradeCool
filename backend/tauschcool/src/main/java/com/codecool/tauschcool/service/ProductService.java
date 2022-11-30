@@ -37,15 +37,15 @@ public class ProductService {
     }
 
     public Product getProductFromJsonString(String jsonString) {
-        JSONObject json = new JSONObject(jsonString);
+        JSONObject object = new JSONObject(jsonString);
         int id = nextFreeProductId;
         nextFreeProductId++;
-        String title = json.getString("title");
-        String description = json.getString("description");
-        String imagePath = json.getString("imagePath");
-        String category = json.getString("category");
-        int userId = json.getInt("userId");
-        ProductStatus status = getProductStatusByString(json.getString("status").toUpperCase());
+        String title = object.getString("title");
+        String description = object.getString("description");
+        String imagePath = object.getString("imagePath");
+        String category = object.getString("category");
+        int userId = object.getInt("userId");
+        ProductStatus status = getProductStatusByString(object.getString("status").toUpperCase());
         return new Product(id, title, description, imagePath, category, userId, status);
     }
 
@@ -67,12 +67,12 @@ public class ProductService {
      */
     public void editProductById(int id, String jsonString) {
         Product product = getProductById(id);
-        JSONObject json = new JSONObject(jsonString);
-        product.setTitle(json.getString("title"));
-        product.setDescription(json.getString("description"));
-        product.setImagePath(json.getString("imagePath"));
-        product.setCategory(json.getString("category"));
-        product.setStatus(getProductStatusByString(json.getString("status").toUpperCase()));
+        JSONObject object = new JSONObject(jsonString);
+        product.setTitle(object.getString("title"));
+        product.setDescription(object.getString("description"));
+        product.setImagePath(object.getString("imagePath"));
+        product.setCategory(object.getString("category"));
+        product.setStatus(getProductStatusByString(object.getString("status").toUpperCase()));
     }
 
     public void deleteProductById(int id) {
