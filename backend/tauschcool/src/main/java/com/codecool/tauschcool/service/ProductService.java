@@ -51,7 +51,7 @@ public class ProductService {
 
     public ProductStatus getProductStatusByString(String string) {
         return Arrays.stream(ProductStatus.values())
-                .filter(s -> s.name().equals(string))
+                .filter(s -> s.name().equals(string.toUpperCase()))
                 .findFirst().orElse(null);
     }
 
@@ -72,7 +72,7 @@ public class ProductService {
         product.setDescription(object.getString("description"));
         product.setImagePath(object.getString("imagePath"));
         product.setCategory(object.getString("category"));
-        product.setStatus(getProductStatusByString(object.getString("status").toUpperCase()));
+        product.setStatus(getProductStatusByString(object.getString("status")));
     }
 
     public void deleteProductById(int id) {
