@@ -28,9 +28,9 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> addNewProduct(@RequestBody String jsonString) {
+    public Product addNewProduct(@RequestBody String jsonString) {
         service.addProductFromJsonString(jsonString);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return service.addProductFromJsonString(jsonString);
     }
 
     @PutMapping("/{id}")

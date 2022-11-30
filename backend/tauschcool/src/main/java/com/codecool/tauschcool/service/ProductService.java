@@ -55,8 +55,10 @@ public class ProductService {
                 .findFirst().orElse(null);
     }
 
-    public void addProductFromJsonString(String jsonString) {
-        productList.add(getProductFromJsonString(jsonString));
+    public Product addProductFromJsonString(String jsonString) {
+        Product product = getProductFromJsonString(jsonString);
+        productList.add(product);
+        return product;
     }
 
     /**
