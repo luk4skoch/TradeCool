@@ -63,44 +63,44 @@ export default function EditProduct(props) {
         <Container>
             <Row>
                 <Col md={8}>
-                    <input 
+                    <input
                         hidden
                         name="id"
                         value={formData.id}
                         onChange={handleFormData}
-                        />
+                    />
 
                     <h3>Title:
-                     <input 
-                        style={{ width: '75%' }}
-                        name="title" 
-                        value={formData.title}
-                        onChange={handleFormData}
-                        required
+                        <input
+                            style={{ width: '75%' }}
+                            name="title"
+                            value={formData.title}
+                            onChange={handleFormData}
+                            required
                         />
                     </h3>
 
                     {product.id !== undefined && <Image src={product.imagePath || "https://placehold.it/"} width='90%' />}
-                    
+
                     <p className="mt-3">
-                    Photo: 
+                        Photo:
                         <input
                             name="imagePath"
                             value={formData.imagePath}
                             onChange={handleFormData} />
                     </p>
 
-                    <textarea 
-                    name="description"
-                    className="mt-3" rows="5" cols="36"
-                    onChange={handleFormData}
-                    value={formData.description}>
+                    <textarea
+                        name="description"
+                        className="mt-3" rows="5" cols="36"
+                        onChange={handleFormData}
+                        value={formData.description}>
                     </textarea>
 
                     <p className="mt-3">Status:
-                         <select name="status"
-                            value={formData.status}
-                            onChange={handleFormData}
+                        <select name="status"
+                                value={formData.status}
+                                onChange={handleFormData}
                         >
                             <option value="OPEN">open</option>
                             <option value="SOLD">sold</option>

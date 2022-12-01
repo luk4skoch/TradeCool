@@ -29,10 +29,10 @@ export default function Product(props) {
             <Row>
                 <Col md={8}>
                     <h3>
-                    {product.title}
+                        {product.title}
                     </h3>
                     <h6 className={statusClass}>
-                    {product.status}
+                        {product.status}
                     </h6>
                     <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
                     <p className="mt-3">{product.description}</p>
