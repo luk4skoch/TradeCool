@@ -1,17 +1,15 @@
 package com.codecool.tauschcool.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import org.json.JSONObject;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class Product {
 
-
-    @Id
     private int id;
-
+    @NotBlank(message = "The title cannot be blank")
     private String title;
 
+    @Size(max = 255)
     private String description;
 
     private String imagePath;
@@ -99,16 +97,5 @@ public class Product {
                 ", userId=" + userId +
                 ", status=" + status +
                 '}';
-    }
-
-    public JSONObject getJson() {
-        JSONObject json = new JSONObject();
-        json.append("title", title);
-        json.append("description", description);
-        json.append("imagePath", imagePath);
-        json.append("category", category);
-        json.append("userId", userId);
-        json.append("status", status.name());
-        return json;
     }
 }
