@@ -1,29 +1,33 @@
 package com.codecool.tauschcool.service;
 
 import com.codecool.tauschcool.model.User;
-import org.json.JSONObject;
+import com.codecool.tauschcool.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-
+    private final UserRepository userRepository;
     private List<User> userList = new ArrayList<>();
 
     private int nextFreeId = 2;
 
-    public UserService() {
-        userList.add(new User(0, "Fred", "fred@farm.com", "Maissau, NÖ", "no Picture"));
-        userList.add(new User(1, "Carl", "carl@tube.com", "Horn, NÖ", "blanc"));
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        userRepository.save(new User("Fred", "fred@farm.com", "Maissau, NÖ", "no Picture", "userFred"));
+        userRepository.save(new User( "Carl", "carl@tube.com", "Horn, NÖ", "blanc", "userCarl"));
     }
 
     public List<User> getUserList() {
         return userList;
     }
 
-    public User getUserById(int id) {
+    public User getUser(long id) {
         for (User user : userList) {
             if (user.getId() == id) {
                 return user;
@@ -32,28 +36,22 @@ public class UserService {
         return null;
     }
 
-    public void addUserByJsonString(String jsonString) {
-        JSONObject object = new JSONObject(jsonString);
-        int id = nextFreeId;
-        nextFreeId++;
-        String name = object.getString("name");
-        String email = object.getString("email");
-        String location = object.getString("location");
-        String imagePath = object.getString("imagePath");
-        User user = new User(id, name, email, location, imagePath);
+
+    public User editUser(User user) {
+        Optional<User> userExists = userList.stream().filter(user1 -> user1.getId() == user.getId()).findFirst();
+        if (userExists.isPresent()) {
+            userList.remove(userExists.get());
+        }
         userList.add(user);
+        return user;
     }
 
-    public void editUserById(int id, String jsonString) {
-        User user = getUserById(id);
-        JSONObject object = new JSONObject(jsonString);
-        user.setName(object.getString("name"));
-        user.setEmail(object.getString("email"));
-        user.setLocation(object.getString("location"));
-        user.setImagePath(object.getString("imagePath"));
+    public void deleteUser(long id) {
+        userList.remove(getUser(id));
     }
 
-    public void deleteUserById(int id) {
-        userList.remove(getUserById(id));
+    public User addUser(User user) {
+        userList.add(user);
+        return user;
     }
 }

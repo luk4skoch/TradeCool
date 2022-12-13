@@ -1,12 +1,24 @@
 package com.codecool.tauschcool.model;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+@Entity
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "users")
 public class User {
-
-    private int id;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
     private String email;
@@ -15,63 +27,16 @@ public class User {
 
     private String imagePath;
 
-    private List<Product> productList;
+    private String password;
+    @OneToMany
+    private Set<Product> productList;
 
-    public User(int id, String name, String email, String location, String imagePath) {
-        this.id = id;
+    public User(String name, String email, String location, String imagePath, String password) {
         this.name = name;
         this.email = email;
         this.location = location;
         this.imagePath = imagePath;
-        productList = new ArrayList<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void addProduct(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+        this.password = password;
     }
 
     @Override
