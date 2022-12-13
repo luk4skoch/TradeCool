@@ -1,4 +1,4 @@
-
+import logo from './logo.svg';
 //import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useEffect, useState} from "react";
@@ -17,7 +17,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/product/all")
+    fetch("http://localhost:8080/api/products")
         .then(data => data.json())
         .then(data => setProducts(data))
   }, [products])
@@ -31,7 +31,8 @@ function App() {
           "description": "",
           "imagePath": "",
           "userId": null,
-          "status": "open"
+          "status": "open",
+          "categories": []
         }
     )
   }
@@ -56,23 +57,3 @@ function App() {
 }
 
 export default App;
-
-const productsMock = [
-    {
-        title: 'Product1',
-        description: 'productsad',
-        imagePath: '',
-        id: 1,
-        userId: null,
-        category: 'tablet',
-        status: 'open'
-    },
-    {
-        title: 'Product2',
-        description: 'productsad',
-        imagePath: '',
-        id: 2,
-        userId: null,
-        category: 'tablet',
-        status: 'closed'
-    }]

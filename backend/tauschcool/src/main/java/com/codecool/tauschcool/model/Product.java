@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,7 +22,10 @@ public class Product {
     private String title;
     private String description;
     private String imagePath;
-    private String category;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Category> categories;
+    
 //    private User user;
 
     private ProductStatus status;
