@@ -35,6 +35,7 @@ export default function Product(props) {
                         {product.status}
                     </h6>
                     <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
+                    {/*<Image src={product.imagePath || "http://localhost:8080/api/image/carbon(1).png"} width='90%' />*/}
                     <p className="mt-3">{product.description}</p>
                 </Col>
                 <Col md={4} className="mt-5">
