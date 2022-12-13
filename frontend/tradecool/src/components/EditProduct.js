@@ -11,12 +11,13 @@ import Stack from 'react-bootstrap/Stack';
 export default function EditProduct(props) {
     const product = props.product;
     const [formData, setFormData] = useState({
-        "id" : (product.id),
+        "id": (product.id),
         "title": (product.title),
         "imagePath": (product.imagePath),
         "description": (product.description),
         "status": (product.status),
-        "category": "no",
+        "newcategory": "",
+        "categories": [...product.categories],
         "userId": 0
     });
 
@@ -27,19 +28,40 @@ export default function EditProduct(props) {
                 [event.target.name]: event.target.value || event.target.innerText
             }
         })
-        console.log(formData)
     }
 
+
+    const handleNewCategory = (event) => {
+        setFormData(prevFormData => {
+            let newCategory = { "name": prevFormData.newcategory };
+            prevFormData.newcategory = "";
+            return {
+                ...prevFormData,
+                categories: [...prevFormData.categories, newCategory]
+            }
+        })
+    }
+
+    const handleDeleteCategory = event => {
+        setFormData(prevFormData => {
+            let oldCategories = [...prevFormData.categories];
+            let updatedCategories = oldCategories.filter(category => category.name !== event.target.dataset.category);
+            return {
+                ...prevFormData,
+                categories: updatedCategories
+            }
+        })
+    }
     const sendFormData = () => {
         let method, url;
         url = 'http://localhost:8080/api/products';
         if (formData.id !== undefined) {
             // edit
-            method =  'PUT'
+            method = 'PUT'
             // url += '/' + formData.id;
         } else {
             // add
-            method =  'POST'
+            method = 'POST'
         }
         fetch(url, {
             method: method,
@@ -59,6 +81,18 @@ export default function EditProduct(props) {
         props.setCurrentProductId(0);
         props.setEditOn(false);
     }
+
+    const categoriesToEdit = formData.categories.map(category =>
+        <div
+        className="m-1 p-2 bg-muted bg-secondary rounded"
+         key={category.name}>
+            {category.name}
+            <button className="btn btn-danger btn-sm mx-2" 
+            data-category={category.name} 
+            onClick={(event) => handleDeleteCategory(event)}>🗑</button>
+        </div>
+    )
+
     return (
         <Container>
             <Row>
@@ -97,16 +131,43 @@ export default function EditProduct(props) {
                         value={formData.description}>
                     </textarea>
 
+                    <p>Categories:</p>
+                    <div className="d-flex">
+                        {categoriesToEdit}
+                    </div>
+                    <p>Add a category:</p>
+
+                    <div className="input-group mb-3">
+                        <input
+                            className="form-control"
+                            type="text"
+                            list="categories"
+                            name="newcategory"
+                            value={formData.newcategory}
+                            onChange={handleFormData}
+                        />
+                        <datalist>
+                            <option value="food"></option>
+                        </datalist>
+                        <div className="input-group-append">
+                            <button className="btn btn-primary"
+                                type="button" onClick={(event) => handleNewCategory(event)}>+</button>
+                        </div>
+                    </div>
+
+
+
                     <p className="mt-3">Status:
                         <select name="status"
-                                value={formData.status}
-                                onChange={handleFormData}
+                            value={formData.status}
+                            onChange={handleFormData}
                         >
                             <option value="OPEN">OPEN</option>
                             <option value="SOLD">SOLD</option>
                             <option value="RESERVED">RESERVED</option>
                         </select>
                     </p>
+
 
                 </Col>
                 <Col md={4} className="mt-5">

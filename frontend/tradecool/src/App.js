@@ -31,7 +31,8 @@ function App() {
           "description": "",
           "imagePath": "",
           "userId": null,
-          "status": "open"
+          "status": "open",
+          "categories": []
         }
     )
   }
@@ -56,23 +57,3 @@ function App() {
 }
 
 export default App;
-
-const productsMock = [
-    {
-        title: 'Product1',
-        description: 'productsad',
-        imagePath: '',
-        id: 1,
-        userId: null,
-        category: 'tablet',
-        status: 'open'
-    },
-    {
-        title: 'Product2',
-        description: 'productsad',
-        imagePath: '',
-        id: 2,
-        userId: null,
-        category: 'tablet',
-        status: 'closed'
-    }]
