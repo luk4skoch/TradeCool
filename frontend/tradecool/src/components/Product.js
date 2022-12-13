@@ -10,7 +10,7 @@ export default function Product(props) {
     const product = props.product;
     const handleEdit = () => props.setEditOn(true);
     const handleDelete = () => {
-        let url = 'http://localhost:8080/api/product/' + product.id;
+        let url = 'http://localhost:8080/api/products/' + product.id;
         fetch(url, {
             method: 'DELETE',
             mode: 'cors',

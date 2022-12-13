@@ -32,11 +32,11 @@ export default function EditProduct(props) {
 
     const sendFormData = () => {
         let method, url;
-        url = 'http://localhost:8080/api/product';
+        url = 'http://localhost:8080/api/products';
         if (formData.id !== undefined) {
             // edit
             method =  'PUT'
-            url += '/' + formData.id;
+            // url += '/' + formData.id;
         } else {
             // add
             method =  'POST'
@@ -102,9 +102,9 @@ export default function EditProduct(props) {
                                 value={formData.status}
                                 onChange={handleFormData}
                         >
-                            <option value="OPEN">open</option>
-                            <option value="SOLD">sold</option>
-                            <option value="RESERVED">reserved</option>
+                            <option value="OPEN">OPEN</option>
+                            <option value="SOLD">SOLD</option>
+                            <option value="RESERVED">RESERVED</option>
                         </select>
                     </p>
 

@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 //import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useEffect, useState} from "react";
@@ -17,7 +17,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/product/all")
+    fetch("http://localhost:8080/api/products")
         .then(data => data.json())
         .then(data => setProducts(data))
   }, [products])
