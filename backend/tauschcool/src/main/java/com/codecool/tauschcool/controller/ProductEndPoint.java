@@ -56,7 +56,12 @@ public class ProductEndPoint {
     }
 
     @PutMapping
-    public ResponseEntity<Product> editProductById(@RequestBody Product product) {
+    public ResponseEntity<Product> editProductById(@RequestPart("image") MultipartFile image,
+           @RequestPart("product") Product product) throws IOException {
+        if (image != null) {
+            byte[] imageForProduct = ImageUtils.compressImage(image.getBytes());
+            product.setImageData(imageForProduct);
+        }
         return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
     }
 

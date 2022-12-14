@@ -22,6 +22,7 @@ public class Product {
     private String description;
 
     // @OneToOne(fetch = FetchType.EAGER)
+    //@Lob
     private byte[] imageData;
 
     @ManyToMany(cascade = CascadeType.ALL)

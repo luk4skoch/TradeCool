@@ -17,7 +17,8 @@ export default function EditProduct(props) {
         "status": (product.status),
         "newcategory": "",
         "categories": [...product.categories],
-        "userId": 0
+        "userId": 0,
+        //"image": useState(product.imageData)
     });
     const [imageData, setImageData] = useState(product.imageData)
 
@@ -63,6 +64,7 @@ export default function EditProduct(props) {
         });
         formDataToSend.append("product", blob);
         formDataToSend.append("image", imageData);
+        //console.log(formDataToSend)
         let url = 'http://localhost:8080/api/products';
         let method;
         if (formData.id !== undefined) {
@@ -73,6 +75,7 @@ export default function EditProduct(props) {
             // add
             method = 'POST'
         }
+        //console.log(imageData)
         fetch(url, {
             method: method,
             mode: 'cors',
