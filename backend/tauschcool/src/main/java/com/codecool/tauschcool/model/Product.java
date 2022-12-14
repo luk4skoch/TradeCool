@@ -1,13 +1,15 @@
 package com.codecool.tauschcool.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,17 +22,11 @@ public class Product {
     private String title;
     private String description;
     private String imagePath;
-    private String category;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Category> categories;
+    
+//    private User user;
+
     private ProductStatus status;
-
-    @ManyToOne
-    private User user;
-
-    public Product(String title, String description, String imagePath, String category, ProductStatus status) {
-        this.title = title;
-        this.description = description;
-        this.imagePath = imagePath;
-        this.category = category;
-        this.status = status;
-    }
 }
