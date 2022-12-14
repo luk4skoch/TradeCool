@@ -4,12 +4,14 @@ import com.codecool.tauschcool.model.Category;
 import com.codecool.tauschcool.model.Product;
 import com.codecool.tauschcool.repository.CategoryRepository;
 import com.codecool.tauschcool.repository.ProductRepository;
+import com.codecool.tauschcool.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -24,7 +26,9 @@ public class ProductService {
     }
 
     public List<Product> getProductList() {
-        return productRepository.findAll();
+
+        return productRepository.findAll().stream().peek(product ->
+                product.setImageData(ImageUtils.decompressImage(product.getImageData()))).collect(Collectors.toList());
     }
 
     public Optional<Product> getProductById(Long id) {
@@ -41,13 +45,11 @@ public class ProductService {
     private Set<Category> getCategories(Set<Category> categories) {
         if (categories == null) return null;
         categories.forEach(
-                category -> {
-                    categoryRepository.findByName(category.getName())
-                            .ifPresentOrElse(
-                                    categoryDb -> category.setId(categoryDb.getId()),
-                                    () -> categoryRepository.save(category)
-                            );
-                }
+                category -> categoryRepository.findByName(category.getName())
+                        .ifPresentOrElse(
+                                categoryDb -> category.setId(categoryDb.getId()),
+                                () -> categoryRepository.save(category)
+                        )
         );
         return categories;
     }
@@ -58,13 +60,18 @@ public class ProductService {
     }
 
     public Product editProductById(Product product) {
-        Product productToUpdate = getProductById(product.getId()).orElseThrow();
-        if (product.getTitle() != null) productToUpdate.setTitle(product.getTitle());
-        if (product.getCategories() != null) productToUpdate.setCategories(getCategories(product.getCategories())); // ?
-        if (product.getStatus() != null) productToUpdate.setStatus(product.getStatus());
-        if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
-        if (product.getImagePath() != null) productToUpdate.setImagePath(product.getImagePath());
-        productRepository.save(productToUpdate);
-        return productToUpdate;
+//        Product productToUpdate = getProductById(product.getId()).orElseThrow();
+//        if (product.getTitle() != null) productToUpdate.setTitle(product.getTitle());
+//        if (product.getCategories() != null) productToUpdate.setCategories(getCategories(product.getCategories())); // ?
+//        if (product.getStatus() != null) productToUpdate.setStatus(product.getStatus());
+//        if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
+//        if (product.getImageData() != null) productToUpdate.setImageData(product.setImageData(););
+        productRepository.save(product);
+        return product;
+    }
+
+    public Product saveProduct(Product product) {
+        productRepository.save(product);
+        return product;
     }
 }

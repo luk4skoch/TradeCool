@@ -15,18 +15,19 @@ import java.util.Set;
 @Builder
 public class Product {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String description;
-    private String imagePath;
+
+    // @OneToOne(fetch = FetchType.EAGER)
+    private byte[] imageData;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
-    
-//    private User user;
+
+    // private User user;
 
     private ProductStatus status;
 }

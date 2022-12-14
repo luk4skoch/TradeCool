@@ -41,7 +41,8 @@ export default function Product(props) {
                     <h6 className={statusClass}>
                         {product.status}
                     </h6>
-                    <Image src={product.imagePath || "https://placehold.it/"} width='90%' />
+                    
+                    <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />
                     {/*<Image src={product.imagePath || "http://localhost:8080/api/image/carbon(1).png"} width='90%' />*/}
                     <p className="mt-3">{product.description}</p>
                     {product.categories.length > 0 && 

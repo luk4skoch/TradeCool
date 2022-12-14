@@ -13,7 +13,7 @@ export default function EditProduct(props) {
     const [formData, setFormData] = useState({
         "id": (product.id),
         "title": (product.title),
-        "imagePath": (product.imagePath),
+        "image": (product.imageData),
         "description": (product.description),
         "status": (product.status),
         "newcategory": "",
@@ -25,7 +25,7 @@ export default function EditProduct(props) {
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
-                [event.target.name]: event.target.value || event.target.innerText
+                [event.target.name]: event.target.id === "image" ? event.target.files[0] : event.target.value || event.target.innerText
             }
         })
     }
@@ -53,8 +53,9 @@ export default function EditProduct(props) {
         })
     }
     const sendFormData = () => {
-        let method, url;
-        url = 'http://localhost:8080/api/products';
+        uploadImage(formData);
+        let url = 'http://localhost:8080/api/products';
+        let method;
         if (formData.id !== undefined) {
             // edit
             method = 'PUT'
@@ -72,7 +73,7 @@ export default function EditProduct(props) {
                 'Content-Type': 'application/json'
             },
             referrerPolicy: 'no-referrer',
-            body: JSON.stringify(formData)
+            body: {...formData}
         }).then(data => data.json().then((data) => data.id !== undefined && props.setCurrentProductId(data.id)));
         props.setEditOn(false);
     };
@@ -114,13 +115,14 @@ export default function EditProduct(props) {
                         />
                     </h3>
 
-                    {product.id !== undefined && <Image src={product.imagePath || "https://placehold.it/"} width='90%' />}
+                    {product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}
 
                     <p className="mt-3">
                         Photo:
                         <input
-                            name="imagePath"
-                            value={formData.imagePath}
+                            type="file"
+                            name="image"
+                            // value={formData.imageData}
                             onChange={handleFormData} />
                     </p>
 
@@ -180,4 +182,18 @@ export default function EditProduct(props) {
 
         </Container>
     );
+}
+
+function uploadImage(formData) {
+    let imageFormData = new FormData();
+    imageFormData.append('image', formData.image);
+    fetch('http://localhost:8080/api/images',
+        {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            body: imageFormData
+        }).then(data => data.json())
+        .then(data => formData.imageData = data);
 }

@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-//import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useEffect, useState} from "react";
 
@@ -29,7 +27,7 @@ function App() {
         }) || {
           "title": "",
           "description": "",
-          "imagePath": "",
+          "imageData": "",
           "userId": null,
           "status": "open",
           "categories": []
