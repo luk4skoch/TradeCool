@@ -1,2 +1,6 @@
-package com.codecool.tauschcool.model;public enum RoleType {
+package com.codecool.tauschcool.model;
+
+public enum RoleType {
+    ADMIN,
+    USER
 }

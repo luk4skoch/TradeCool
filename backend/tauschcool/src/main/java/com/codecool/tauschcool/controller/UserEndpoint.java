@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")@RequestMapping("/user")
@@ -23,7 +24,7 @@ public class UserEndpoint {
     }
 
     @GetMapping("{id}")
-    public User getUserById(@PathVariable int id) {
+    public Optional<User> getUserById(@PathVariable int id) {
         return userService.getUser(id);
     }
 

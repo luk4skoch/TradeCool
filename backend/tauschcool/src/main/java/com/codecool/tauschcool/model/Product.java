@@ -2,10 +2,7 @@ package com.codecool.tauschcool.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -24,7 +21,16 @@ public class Product {
     private String description;
     private String imagePath;
     private String category;
-//    private User user;
-
     private ProductStatus status;
+
+    @ManyToOne
+    private User user;
+
+    public Product(String title, String description, String imagePath, String category, ProductStatus status) {
+        this.title = title;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.category = category;
+        this.status = status;
+    }
 }

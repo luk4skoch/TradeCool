@@ -12,46 +12,35 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private List<User> userList = new ArrayList<>();
-
-    private int nextFreeId = 2;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        userRepository.save(new User("Fred", "fred@farm.com", "Maissau, NÖ", "no Picture", "userFred"));
-        userRepository.save(new User( "Carl", "carl@tube.com", "Horn, NÖ", "blanc", "userCarl"));
+        this.userRepository.save(new User("Fred", "fred@farm.com", "Maissau, NÖ", "no Picture", "userFred"));
+        this.userRepository.save(new User( "Carl", "carl@tube.com", "Horn, NÖ", "blanc", "userCarl"));
     }
 
     public List<User> getUserList() {
-        return userList;
+        return userRepository.findAll();
     }
 
-    public User getUser(long id) {
-        for (User user : userList) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        return null;
+    public Optional<User> getUser(long id) {
+        return this.userRepository.findById(id);
     }
 
 
     public User editUser(User user) {
-        Optional<User> userExists = userList.stream().filter(user1 -> user1.getId() == user.getId()).findFirst();
-        if (userExists.isPresent()) {
-            userList.remove(userExists.get());
-        }
-        userList.add(user);
-        return user;
+        return this.userRepository.save(user);
     }
 
     public void deleteUser(long id) {
-        userList.remove(getUser(id));
+        Optional<User> user = getUser(id);
+        if (user.isPresent()){
+            this.userRepository.delete(user.get());
+        }
     }
 
     public User addUser(User user) {
-        userList.add(user);
-        return user;
+        return this.userRepository.save(user);
     }
 }
