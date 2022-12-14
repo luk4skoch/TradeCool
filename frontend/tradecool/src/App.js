@@ -29,7 +29,7 @@ function App() {
           "description": "",
           "imageData": "",
           "userId": null,
-          "status": "open",
+          "status": "OPEN",
           "categories": []
         }
     )

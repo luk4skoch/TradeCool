@@ -13,23 +13,26 @@ export default function EditProduct(props) {
     const [formData, setFormData] = useState({
         "id": (product.id),
         "title": (product.title),
-        "image": (product.imageData),
         "description": (product.description),
         "status": (product.status),
         "newcategory": "",
         "categories": [...product.categories],
         "userId": 0
     });
+    const [imageData, setImageData] = useState(product.imageData)
 
     const handleFormData = (event) => {
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
-                [event.target.name]: event.target.id === "image" ? event.target.files[0] : event.target.value || event.target.innerText
+                [event.target.name]: event.target.value || event.target.innerText
             }
         })
     }
 
+    const handleImageData = (event) => {
+        setImageData(event.target.files[0]);
+    }
 
     const handleNewCategory = (event) => {
         setFormData(prevFormData => {
@@ -53,7 +56,13 @@ export default function EditProduct(props) {
         })
     }
     const sendFormData = () => {
-        uploadImage(formData);
+        let formDataToSend = new FormData();
+        const json = JSON.stringify(formData);
+        const blob = new Blob([json], {
+            type: 'application/json'
+        });
+        formDataToSend.append("product", blob);
+        formDataToSend.append("image", imageData);
         let url = 'http://localhost:8080/api/products';
         let method;
         if (formData.id !== undefined) {
@@ -69,11 +78,11 @@ export default function EditProduct(props) {
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            // headers: {
+            //     'Content-Type': 'application/json'
+            // },
             referrerPolicy: 'no-referrer',
-            body: {...formData}
+            body: formDataToSend
         }).then(data => data.json().then((data) => data.id !== undefined && props.setCurrentProductId(data.id)));
         props.setEditOn(false);
     };
@@ -85,12 +94,12 @@ export default function EditProduct(props) {
 
     const categoriesToEdit = formData.categories.map(category =>
         <div
-        className="m-1 p-2 bg-muted bg-secondary rounded"
-         key={category.name}>
+            className="m-1 p-2 bg-muted bg-secondary rounded"
+            key={category.name}>
             {category.name}
-            <button className="btn btn-danger btn-sm mx-2" 
-            data-category={category.name} 
-            onClick={(event) => handleDeleteCategory(event)}>🗑</button>
+            <button className="btn btn-danger btn-sm mx-2"
+                data-category={category.name}
+                onClick={(event) => handleDeleteCategory(event)}>🗑</button>
         </div>
     )
 
@@ -121,9 +130,10 @@ export default function EditProduct(props) {
                         Photo:
                         <input
                             type="file"
-                            name="image"
+                            name="imageData"
                             // value={formData.imageData}
-                            onChange={handleFormData} />
+                            // value={imageData}
+                            onChange={handleImageData} />
                     </p>
 
                     <textarea
@@ -184,16 +194,3 @@ export default function EditProduct(props) {
     );
 }
 
-function uploadImage(formData) {
-    let imageFormData = new FormData();
-    imageFormData.append('image', formData.image);
-    fetch('http://localhost:8080/api/images',
-        {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            body: imageFormData
-        }).then(data => data.json())
-        .then(data => formData.imageData = data);
-}
