@@ -1,59 +1,21 @@
-// import logo from './logo.svg';
-//import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, {useEffect, useState} from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import Home from "./components/pages/home";
+import Overview from "./components/pages/overview";
+import Login from "./components/pages/login";
+import Register from "./components/pages/register";
 
-import NavElement from './components/NavElement';
-import Sidebar from './components/Sidebar';
-import Product from './components/Product';
-import EditProduct from './components/EditProduct';
-
-import {Container, Row, Col} from "react-bootstrap";
-
-function App() {
-  const [products, setProducts] = useState([]);
-  const [editOn, setEditOn] = useState(false);
-  const [currentProductId, setCurrentProductId] = useState(0);
-
-
-  useEffect(() => {
-    fetch("http://localhost:8080/api/products")
-        .then(data => data.json())
-        .then(data => setProducts(data))
-  }, [products])
-
-
-  const findCurrentProduct = () => {
-    return (products.find(product => {
-          return product.id.toString() === currentProductId.toString()
-        }) || {
-          "title": "",
-          "description": "",
-          "imagePath": "",
-          "userId": null,
-          "status": "open",
-          "categories": []
-        }
-    )
-  }
-
-
+export default function App() {
   return (
-    <div className="App">
-      <NavElement />
-      <Container className="mt-3">
-        <Row>
-          <Col md={4} >
-            <Sidebar products={products} currentProductId={currentProductId} setCurrentProductId={setCurrentProductId} setEditOn={setEditOn} />
-          </Col>
-            <Col md={8}>
-                {editOn ? <EditProduct product={findCurrentProduct()} setCurrentProductId={setCurrentProductId} setEditOn={setEditOn} /> : <Product product={findCurrentProduct()} setEditOn={setEditOn} />}
-            </Col>
-        </Row>
-      </Container>
-    </div>
-
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/overview" element={<Overview />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
