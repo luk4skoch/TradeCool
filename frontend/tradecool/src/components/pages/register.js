@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +13,6 @@ export default function Register() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    console.log(formData);
-    console.log(formDataEntries);
     fetch("http://localhost:8080/auth/register", {
       method: "POST",
       headers: {
