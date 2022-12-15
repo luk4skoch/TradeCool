@@ -3,6 +3,7 @@ package com.codecool.tauschcool.service;
 import com.codecool.tauschcool.model.Role;
 import com.codecool.tauschcool.model.RoleType;
 import com.codecool.tauschcool.model.User;
+import com.codecool.tauschcool.model.UserToken;
 import com.codecool.tauschcool.repository.RoleRepository;
 import com.codecool.tauschcool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 @Service
 public class AuthService {
+    private static Set<UserToken> tokens;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
@@ -37,5 +39,9 @@ public class AuthService {
 
     public Optional<User> loginUser(String email, String password) {
        return userRepository.findByEmail(email);
+    }
+
+    public boolean isValid(UserToken token){
+        return true;
     }
 }
