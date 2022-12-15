@@ -13,9 +13,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("api/products")
 public class ProductEndPoint {
-
     private final ProductService productService;
-
     @Autowired
     public ProductEndPoint(ProductService service) {
 
