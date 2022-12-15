@@ -16,8 +16,6 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userRepository.save(new User("Fred", "fred@farm.com", "Maissau, NÖ", "no Picture", "userFred"));
-        this.userRepository.save(new User( "Carl", "carl@tube.com", "Horn, NÖ", "blanc", "userCarl"));
     }
 
     public List<User> getUserList() {

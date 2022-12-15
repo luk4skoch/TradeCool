@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { UserTokenContext } from "./context/UserToken";
 
 export default function MainNavbar({ navTitle }) {
+  const [userToken, setUserToken] = useContext(UserTokenContext);
   const navigate = useNavigate();
   const navigateTo = (route) => {
     navigate(route);
+  };
+
+  const signOut = () => {
+    localStorage.setItem("userToken", null);
+    setUserToken({ userId: null });
   };
   return (
     <Navbar bg="dark" variant="dark">
@@ -27,6 +34,7 @@ export default function MainNavbar({ navTitle }) {
           >
             Home
           </Nav.Link>
+
           <Nav.Link
             href="#"
             onClick={() => {
@@ -35,22 +43,34 @@ export default function MainNavbar({ navTitle }) {
           >
             Overview
           </Nav.Link>
-          <Nav.Link
-            href="#"
-            onClick={() => {
-              navigateTo("/login");
-            }}
-          >
-            SignIn
-          </Nav.Link>
-          <Nav.Link
-            href="#"
-            onClick={() => {
-              navigateTo("/register");
-            }}
-          >
-            SignUp
-          </Nav.Link>
+
+          {!userToken.userId && (
+            <Nav.Link
+              href="#"
+              onClick={() => {
+                navigateTo("/login");
+              }}
+            >
+              SignIn
+            </Nav.Link>
+          )}
+
+          {!userToken.userId && (
+            <Nav.Link
+              href="#"
+              onClick={() => {
+                navigateTo("/register");
+              }}
+            >
+              SignUp
+            </Nav.Link>
+          )}
+
+          {userToken.userId && (
+            <Nav.Link href="#" onClick={signOut}>
+              Sign out
+            </Nav.Link>
+          )}
         </Nav>
       </Container>
     </Navbar>
