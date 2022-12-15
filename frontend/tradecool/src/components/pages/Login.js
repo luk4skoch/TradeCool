@@ -11,6 +11,7 @@ export default function Login() {
   };
   return (
     <form>
+        <br/>
       <h3>Sign up</h3>
 
       <div className="form-group">
@@ -30,7 +31,7 @@ export default function Login() {
           placeholder="Enter password"
         />
       </div>
-
+        <br/>
       <button type="submit" className="btn btn-dark btn-lg btn-block">
         Sign in
       </button>

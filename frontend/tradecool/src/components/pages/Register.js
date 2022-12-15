@@ -2,7 +2,8 @@ import React from "react";
 export default function Register() {
   return (
     <>
-      <p>register here</p>
+        <br/>
+      <h1>register here</h1>
     </>
   );
 }

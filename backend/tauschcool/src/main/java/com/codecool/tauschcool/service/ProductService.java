@@ -82,8 +82,6 @@ public class ProductService {
             } else {
                 product.setImages(imageSet);
             }
-            System.out.println(imageSet);
-            System.out.println(Arrays.stream(images).peek(MultipartFile::getName));
         }
         return productRepository.save(product);
     }

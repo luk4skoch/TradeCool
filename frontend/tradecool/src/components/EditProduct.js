@@ -191,7 +191,7 @@ export default function EditProduct(props) {
                         {categoriesToEdit}
                     </div>
                     {/*<p>Add a category:</p>*/}
-
+                    <br/>
                     <div className="input-group mb-3">
                         <input
                             className="form-control"

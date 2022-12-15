@@ -2,7 +2,8 @@ import React from "react";
 export default function Home() {
   return (
     <div>
-      <p>Willkommen zu trade-cool.</p>
+        <br/>
+      <h1>Willkommen zu trade-cool.</h1>
     </div>
   );
 }
