@@ -7,14 +7,11 @@ import { useNavigate } from "react-router";
 import { UserTokenContext } from "../context/UserToken";
 
 export default function Login() {
-  console.log("Login...");
   const navigate = useNavigate();
 
   const [userToken, setUserToken] = React.useContext(UserTokenContext);
-  console.log(userToken);
 
   const loginUser = (e) => {
-    console.log(userToken);
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
@@ -33,11 +30,8 @@ export default function Login() {
     ).then((res) => {
       if (res.ok) {
         res.json().then((token) => {
-          alert("Logged In!");
-          console.log(token);
           setUserToken(token);
           localStorage.setItem("userToken", userToken);
-          console.log(userToken);
         });
         navigate("/");
       } else {

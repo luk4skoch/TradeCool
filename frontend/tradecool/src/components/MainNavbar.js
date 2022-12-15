@@ -12,7 +12,7 @@ export default function MainNavbar({ navTitle }) {
 
   const signOut = () => {
     localStorage.setItem("userToken", null);
-    setUserToken();
+    setUserToken({ userId: null });
   };
   return (
     <Navbar bg="dark" variant="dark">
@@ -34,6 +34,7 @@ export default function MainNavbar({ navTitle }) {
           >
             Home
           </Nav.Link>
+
           <Nav.Link
             href="#"
             onClick={() => {
@@ -42,6 +43,7 @@ export default function MainNavbar({ navTitle }) {
           >
             Overview
           </Nav.Link>
+
           {!userToken.userId && (
             <Nav.Link
               href="#"
@@ -52,6 +54,7 @@ export default function MainNavbar({ navTitle }) {
               SignIn
             </Nav.Link>
           )}
+
           {!userToken.userId && (
             <Nav.Link
               href="#"
@@ -62,6 +65,7 @@ export default function MainNavbar({ navTitle }) {
               SignUp
             </Nav.Link>
           )}
+
           {userToken.userId && (
             <Nav.Link href="#" onClick={signOut}>
               Sign out
