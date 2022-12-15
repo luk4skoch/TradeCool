@@ -1,13 +1,16 @@
 package com.codecool.tauschcool.service;
 
 import com.codecool.tauschcool.model.Category;
+import com.codecool.tauschcool.model.ImageData;
 import com.codecool.tauschcool.model.Product;
 import com.codecool.tauschcool.repository.CategoryRepository;
 import com.codecool.tauschcool.repository.ProductRepository;
-import com.codecool.tauschcool.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,28 +21,24 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, ImageService imageService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.imageService = imageService;
     }
 
     public List<Product> getProductList() {
-
-        return productRepository.findAll().stream().peek(product ->
-                product.setImageData(ImageUtils.decompressImage(product.getImageData()))).collect(Collectors.toList());
+        return productRepository.findAll().stream()
+                .peek(product ->
+                        product.setImages(imageService.decompressImages(product.getImages())))
+                .collect(Collectors.toList());
     }
 
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
-    }
-
-
-    public Product addNewProduct(Product product) {
-        product.setCategories(getCategories(product.getCategories()));
-        productRepository.save(product);
-        return product;
     }
 
     private Set<Category> getCategories(Set<Category> categories) {
@@ -54,24 +53,28 @@ public class ProductService {
         return categories;
     }
 
-
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
 
-    public Product editProductById(Product product) {
-//        Product productToUpdate = getProductById(product.getId()).orElseThrow();
-//        if (product.getTitle() != null) productToUpdate.setTitle(product.getTitle());
-//        if (product.getCategories() != null) productToUpdate.setCategories(getCategories(product.getCategories())); // ?
-//        if (product.getStatus() != null) productToUpdate.setStatus(product.getStatus());
-//        if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
-//        if (product.getImageData() != null) productToUpdate.setImageData(product.setImageData(););
-        productRepository.save(product);
-        return product;
-    }
-
-    public Product saveProduct(Product product) {
-        productRepository.save(product);
-        return product;
+    public Product saveProduct(Product product, MultipartFile[] images) {
+        product.setCategories(getCategories(product.getCategories()));
+        if (images.length != 0) {
+            Set<ImageData> imageSet = Arrays.stream(images).map(
+                    image -> {
+                        try {
+                            return imageService.uploadImage(image);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+            ).collect(Collectors.toSet());
+            if (product.getImages() != null) {
+                product.getImages().addAll(imageSet);
+            } else {
+                product.setImages(imageSet);
+            }
+        }
+        return productRepository.save(product);
     }
 }

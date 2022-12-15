@@ -43,4 +43,9 @@ public class ImageEndpoint {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteImage(@PathVariable Long id) {
+        imageService.deleteImage(id);
+    }
 }

@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
@@ -33,5 +35,18 @@ public class ImageService {
     public byte[] downloadImage(Long id) {
         Optional<ImageData> dbImageData = imageRepository.findById(id);
         return ImageUtils.decompressImage(dbImageData.get().getImageData());
+    }
+
+    public ImageData decompressImage(ImageData image) {
+        image.setImageData(ImageUtils.decompressImage(image.getImageData()));
+        return image;
+    }
+
+    public Set<ImageData> decompressImages(Set<ImageData> imageDataSet) {
+        return imageDataSet.stream().map(this::decompressImage).collect(Collectors.toSet());
+    }
+
+    public void deleteImage(Long id) {
+        imageRepository.deleteById(id);
     }
 }

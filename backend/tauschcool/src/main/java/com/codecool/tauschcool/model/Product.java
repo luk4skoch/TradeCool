@@ -20,10 +20,8 @@ public class Product {
     private Long id;
     private String title;
     private String description;
-
-    // @OneToOne(fetch = FetchType.EAGER)
-    //@Lob
-    private byte[] imageData;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<ImageData> images;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;

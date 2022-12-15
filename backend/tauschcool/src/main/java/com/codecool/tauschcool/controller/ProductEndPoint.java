@@ -1,17 +1,20 @@
 package com.codecool.tauschcool.controller;
 
+import com.codecool.tauschcool.model.ImageData;
 import com.codecool.tauschcool.model.Product;
+import com.codecool.tauschcool.service.ImageService;
 import com.codecool.tauschcool.service.ProductService;
 import com.codecool.tauschcool.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -32,37 +35,22 @@ public class ProductEndPoint {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public Product getProductById(@PathVariable Long id) {
         Optional<Product> product = productService.getProductById(id);
         return product
-                .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+                .orElseGet(() -> null);
     }
 
-    // @PostMapping
-    // public ResponseEntity<Product> addNewProduct(@RequestBody Product product) {
-    // return new ResponseEntity<>(productService.saveProduct(product),
-    // HttpStatus.CREATED);
-    // }
-
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestPart("image") MultipartFile image,
-            @RequestPart("product") Product product) throws IOException {
-        if (image != null) {
-            byte[] imageForProduct = ImageUtils.compressImage(image.getBytes());
-            product.setImageData(imageForProduct);
-        }
-        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.CREATED);
+    public Product addProduct(@RequestPart("image") MultipartFile[] images,
+                              @RequestPart("product") Product product) {
+        return productService.saveProduct(product, images);
     }
 
     @PutMapping
-    public ResponseEntity<Product> editProductById(@RequestPart("image") MultipartFile image,
-           @RequestPart("product") Product product) throws IOException {
-        if (image != null) {
-            byte[] imageForProduct = ImageUtils.compressImage(image.getBytes());
-            product.setImageData(imageForProduct);
-        }
-        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
+    public Product editProductById(@RequestPart("image") MultipartFile[] images,
+                                   @RequestPart("product") Product product) {
+        return productService.saveProduct(product, images);
     }
 
     @DeleteMapping("/{id}")

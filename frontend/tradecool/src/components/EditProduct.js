@@ -20,7 +20,7 @@ export default function EditProduct(props) {
         "userId": 0,
         //"image": useState(product.imageData)
     });
-    const [imageData, setImageData] = useState(product.imageData)
+    const [imageData, setImageData] = useState(product.imageData|| null)
 
     const handleFormData = (event) => {
         setFormData(prevFormData => {
