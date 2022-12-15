@@ -27,6 +27,7 @@ public class ImageService {
                 .imageData(ImageUtils.compressImage(file.getBytes())).build());
     }
 
+
     public byte[] downloadImage(String filename) {
         Optional<ImageData> dbImageData = imageRepository.findByName(filename);
         return ImageUtils.decompressImage(dbImageData.get().getImageData());
@@ -40,6 +41,16 @@ public class ImageService {
     public ImageData decompressImage(ImageData image) {
         image.setImageData(ImageUtils.decompressImage(image.getImageData()));
         return image;
+    }
+
+    public ImageData compressImage(ImageData image) {
+        image.setImageData(ImageUtils.compressImage(image.getImageData()));
+        return image;
+    }
+
+
+    public Set<ImageData> compressImages(Set<ImageData> imageDataSet) {
+        return imageDataSet.stream().map(this::compressImage).collect(Collectors.toSet());
     }
 
     public Set<ImageData> decompressImages(Set<ImageData> imageDataSet) {

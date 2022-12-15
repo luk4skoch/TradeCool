@@ -57,6 +57,12 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public Product saveProduct(Product product) {
+        product.setCategories(getCategories(product.getCategories()));
+        product.setImages(imageService.compressImages(product.getImages()));
+        return productRepository.save(product);
+    }
+
     public Product saveProduct(Product product, MultipartFile[] images) {
         product.setCategories(getCategories(product.getCategories()));
         if (images.length != 0) {
@@ -70,10 +76,14 @@ public class ProductService {
                     }
             ).collect(Collectors.toSet());
             if (product.getImages() != null) {
-                product.getImages().addAll(imageSet);
+                Set<ImageData> temp = imageService.compressImages(product.getImages());
+                temp.addAll(imageSet);
+                product.setImages(temp);
             } else {
                 product.setImages(imageSet);
             }
+            System.out.println(imageSet);
+            System.out.println(Arrays.stream(images).peek(MultipartFile::getName));
         }
         return productRepository.save(product);
     }

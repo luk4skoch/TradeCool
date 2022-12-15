@@ -31,6 +31,7 @@ export default function Product(props) {
             {category.name}
         </div>
     )
+    console.log(product)
     return (
         <Container>
             <Row>
