@@ -15,7 +15,6 @@ export default function MainNavbar({ navTitle }) {
     setUserToken({ userId: null });
   };
 
-
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -70,7 +69,7 @@ export default function MainNavbar({ navTitle }) {
 
           {userToken.userId && (
             <Nav.Link href="#" onClick={signOut}>
-              Sign out
+              <Nav.Item>Welcome, {userToken.userName}! Sign out</Nav.Item>
             </Nav.Link>
           )}
         </Nav>

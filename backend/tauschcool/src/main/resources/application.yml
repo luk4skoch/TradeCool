@@ -12,11 +12,11 @@ spring:
   jpa:
     database: POSTGRESQL
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/tradecool
-    username: luk4skoch
-    password: 123456
+    url: jdbc:postgresql://pg.micakovic.at:5432/tradecool
+    username: ReactSpringSecUserServices
+    password: ZAjzkIXjQMIvWa5v
     driverClassName: org.postgresql.Driver
 jwt:
   secret: 8dUS5AhkJ81p8TFTRT9O6WuITgthmL3N

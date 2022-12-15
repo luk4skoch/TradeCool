@@ -44,4 +44,12 @@ public class AuthService {
     public boolean isValid(UserToken token){
         return true;
     }
+
+    public boolean emailExist(String email) {
+        if (userRepository.findByEmail(email).isPresent()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
