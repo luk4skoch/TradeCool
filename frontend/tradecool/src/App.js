@@ -35,7 +35,6 @@ function App() {
     )
   }
 
-
   return (
     <div className="App">
       <NavElement />
@@ -45,7 +44,9 @@ function App() {
             <Sidebar products={products} currentProductId={currentProductId} setCurrentProductId={setCurrentProductId} setEditOn={setEditOn} />
           </Col>
             <Col md={8}>
-                {editOn ? <EditProduct product={findCurrentProduct()} setCurrentProductId={setCurrentProductId} setEditOn={setEditOn} /> : <Product product={findCurrentProduct()} setEditOn={setEditOn} />}
+                {editOn ?
+                    <EditProduct product={findCurrentProduct()} setCurrentProductId={setCurrentProductId} setEditOn={setEditOn} /> :
+                    <Product product={findCurrentProduct()} setEditOn={setEditOn} />}
             </Col>
         </Row>
       </Container>

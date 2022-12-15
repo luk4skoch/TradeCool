@@ -1,12 +1,7 @@
-import { useState } from 'react';
-import React from 'react'
-
-import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Stack from 'react-bootstrap/Stack';
+import React, {useState} from 'react';
+import {Col, Container, Row} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Stack from "react-bootstrap/Stack";
 
 export default function EditProduct(props) {
     const product = props.product;
@@ -18,9 +13,9 @@ export default function EditProduct(props) {
         "newcategory": "",
         "categories": [...product.categories],
         "userId": 0,
-        //"image": useState(product.imageData)
+        "images": [...product.images]
     });
-    const [imageData, setImageData] = useState(product.imageData|| null)
+    const [imageData, setImageData] = useState([])
 
     const handleFormData = (event) => {
         setFormData(prevFormData => {
@@ -32,12 +27,13 @@ export default function EditProduct(props) {
     }
 
     const handleImageData = (event) => {
-        setImageData(event.target.files[0]);
+        setImageData(event.target.files);
+        console.log(imageData);
     }
 
-    const handleNewCategory = (event) => {
+    const handleNewCategory = () => {
         setFormData(prevFormData => {
-            let newCategory = { "name": prevFormData.newcategory };
+            let newCategory = {"name": prevFormData.newcategory};
             prevFormData.newcategory = "";
             return {
                 ...prevFormData,
@@ -56,16 +52,32 @@ export default function EditProduct(props) {
             }
         })
     }
+
+    const handleDeleteImage = (id) => {
+        setFormData(prevFormData => {
+            let newImages = prevFormData.images.filter(image => image.id !== id);
+            return {
+                ...prevFormData,
+                images: newImages
+            }
+        })
+        console.log(formData);
+    }
+
     const sendFormData = () => {
+        let url = 'http://localhost:8080/api/products';
         let formDataToSend = new FormData();
         const json = JSON.stringify(formData);
         const blob = new Blob([json], {
             type: 'application/json'
         });
         formDataToSend.append("product", blob);
-        formDataToSend.append("image", imageData);
-        //console.log(formDataToSend)
-        let url = 'http://localhost:8080/api/products';
+        if (imageData.length > 0) {
+            for (let image of imageData) {
+                formDataToSend.append("images", image)
+            }
+            url += "/images"
+        }
         let method;
         if (formData.id !== undefined) {
             // edit
@@ -75,7 +87,7 @@ export default function EditProduct(props) {
             // add
             method = 'POST'
         }
-        //console.log(imageData)
+
         fetch(url, {
             method: method,
             mode: 'cors',
@@ -101,8 +113,23 @@ export default function EditProduct(props) {
             key={category.name}>
             {category.name}
             <button className="btn btn-danger btn-sm mx-2"
-                data-category={category.name}
-                onClick={(event) => handleDeleteCategory(event)}>🗑</button>
+                    data-category={category.name}
+                    onClick={(event) => handleDeleteCategory(event)}>🗑
+            </button>
+        </div>
+    )
+
+    const imagesToEdit = formData.images.map(image =>
+        <div
+            key={image.id}>
+            <img
+                src={image ? "data:" + image.type + ";base64," + image.imageData : "https://placehold.it/"}
+                alt={image.name}
+                width="100px"
+            />
+            <button className="btn btn-danger btn-sm mx-2"
+                    onClick={() => handleDeleteImage(image.id)}>🗑
+            </button>
         </div>
     )
 
@@ -119,7 +146,7 @@ export default function EditProduct(props) {
 
                     <h3>Title:
                         <input
-                            style={{ width: '75%' }}
+                            style={{width: '75%'}}
                             name="title"
                             value={formData.title}
                             onChange={handleFormData}
@@ -127,16 +154,17 @@ export default function EditProduct(props) {
                         />
                     </h3>
 
-                    {product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}
+                    {/*{product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}*/}
 
                     <p className="mt-3">
-                        Photo:
+                        Photos:
                         <input
                             type="file"
+                            multiple
                             name="imageData"
                             // value={formData.imageData}
                             // value={imageData}
-                            onChange={handleImageData} />
+                            onChange={handleImageData}/>
                     </p>
 
                     <textarea
@@ -146,6 +174,10 @@ export default function EditProduct(props) {
                         value={formData.description}>
                     </textarea>
 
+                    <p>Photos:</p>
+                    <div className="d-flex">
+                        {imagesToEdit}
+                    </div>
                     <p>Categories:</p>
                     <div className="d-flex">
                         {categoriesToEdit}
@@ -166,16 +198,16 @@ export default function EditProduct(props) {
                         </datalist>
                         <div className="input-group-append">
                             <button className="btn btn-primary"
-                                type="button" onClick={(event) => handleNewCategory(event)}>+</button>
+                                    type="button" onClick={(event) => handleNewCategory(event)}>+
+                            </button>
                         </div>
                     </div>
 
 
-
                     <p className="mt-3">Status:
                         <select name="status"
-                            value={formData.status}
-                            onChange={handleFormData}
+                                value={formData.status}
+                                onChange={handleFormData}
                         >
                             <option value="OPEN">OPEN</option>
                             <option value="SOLD">SOLD</option>

@@ -1,20 +1,13 @@
 package com.codecool.tauschcool.controller;
 
-import com.codecool.tauschcool.model.ImageData;
 import com.codecool.tauschcool.model.Product;
-import com.codecool.tauschcool.service.ImageService;
 import com.codecool.tauschcool.service.ProductService;
-import com.codecool.tauschcool.util.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -41,16 +34,26 @@ public class ProductEndPoint {
                 .orElseGet(() -> null);
     }
 
-    @PostMapping
-    public Product addProduct(@RequestPart("image") MultipartFile[] images,
+    @PostMapping("images")
+    public Product addProduct(@RequestPart("images") MultipartFile[] images,
                               @RequestPart("product") Product product) {
         return productService.saveProduct(product, images);
     }
 
-    @PutMapping
-    public Product editProductById(@RequestPart("image") MultipartFile[] images,
+    @PostMapping
+    public Product addProductNoImages(@RequestPart("product") Product product) {
+        return productService.saveProduct(product);
+    }
+
+    @PutMapping("images")
+    public Product editProductById(@RequestPart("images") MultipartFile[] images,
                                    @RequestPart("product") Product product) {
         return productService.saveProduct(product, images);
+    }
+
+    @PutMapping
+    public Product editProductNoImages(@RequestPart("product") Product product) {
+        return productService.saveProduct(product);
     }
 
     @DeleteMapping("/{id}")

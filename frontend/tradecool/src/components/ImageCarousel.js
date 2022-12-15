@@ -10,12 +10,12 @@ export default function ImageCarousel(props) {
 
     const imageItems = props.images.map(
         image =>
-            <Carousel.Item>
+            <Carousel.Item key={image.id}>
                 <img
                     className="d-block"
                     src={image ? "data:" + image.type + ";base64," + image.imageData : "https://placehold.it/"}
-                    alt="First slide"
                     width="90%"
+                    alt="product"
                 />
             </Carousel.Item>
     )
