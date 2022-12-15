@@ -9,6 +9,11 @@ export default function MainNavbar({ navTitle }) {
   const navigateTo = (route) => {
     navigate(route);
   };
+
+  const signOut = () => {
+    localStorage.setItem("userToken", null);
+    setUserToken();
+  };
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -55,6 +60,11 @@ export default function MainNavbar({ navTitle }) {
               }}
             >
               SignUp
+            </Nav.Link>
+          )}
+          {userToken.userId && (
+            <Nav.Link href="#" onClick={signOut}>
+              Sign out
             </Nav.Link>
           )}
         </Nav>
