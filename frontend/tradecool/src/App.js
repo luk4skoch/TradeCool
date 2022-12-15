@@ -27,7 +27,7 @@ function App() {
         }) || {
           "title": "",
           "description": "",
-          "imageData": "",
+          "images": [],
           "userId": null,
           "status": "OPEN",
           "categories": []

@@ -1,10 +1,11 @@
-import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import React from 'react'
+
+import ImageCarousel from './ImageCarousel'
 
 export default function Product(props) {
     const product = props.product;
@@ -25,8 +26,8 @@ export default function Product(props) {
     const statusClass = product.status === 'OPEN' ? 'text-success' : product.status === 'SOLD' ? 'text-danger' : 'text-warning';
     const categories = product.categories.map(category =>
         <div
-        className="m-1 p-2 bg-muted bg-secondary rounded"
-         key={category.name}>
+            className="m-1 p-2 bg-muted bg-secondary rounded"
+            key={category.name}>
             {category.name}
         </div>
     )
@@ -40,17 +41,17 @@ export default function Product(props) {
                     <h6 className={statusClass}>
                         {product.status}
                     </h6>
-                    
-                    <img src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />
-                    {/*<Image src={product.imagePath || "http://localhost:8080/api/image/carbon(1).png"} width='90%' />*/}
+                    {
+                        <ImageCarousel images={product.images}/>
+                    }
                     <p className="mt-3">{product.description}</p>
-                    {product.categories.length > 0 && 
-                    <>
-                        <p>Categories: </p>
-                        <div className="d-flex">
-                            {categories}
-                        </div>
-                    </>}
+                    {product.categories.length > 0 &&
+                        <>
+                            <p>Categories: </p>
+                            <div className="d-flex">
+                                {categories}
+                            </div>
+                        </>}
                 </Col>
                 <Col md={4} className="mt-5">
                     <Stack gap={3} id="">

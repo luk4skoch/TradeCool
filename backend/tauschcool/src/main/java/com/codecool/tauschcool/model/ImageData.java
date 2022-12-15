@@ -20,8 +20,8 @@ public class ImageData {
 
     private String name;
     private String type;
-    @Lob
-    @Column(name = "imagedata")
+//    @Lob
+//    @Column(name = "imagedata")
     private byte[] imageData;
 
 }
