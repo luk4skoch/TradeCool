@@ -10,7 +10,7 @@ export default function Login() {
   };
   return (
     <form>
-      <h3>Sign up</h3>
+      <h3>Sign in</h3>
 
       <div className="form-group">
         <label>Email</label>
