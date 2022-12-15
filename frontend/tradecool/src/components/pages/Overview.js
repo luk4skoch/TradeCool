@@ -25,9 +25,9 @@ function Overview() {
       }) || {
         title: "",
         description: "",
-        imagePath: "",
+        images: [],
         userId: null,
-        status: "open",
+        status: "OPEN",
         categories: [],
       }
     );

@@ -1,3 +1,4 @@
+import React from "react";
 import MainNavbar from "./MainNavbar";
 import { Outlet } from "react-router";
 import { Container } from "react-bootstrap";
