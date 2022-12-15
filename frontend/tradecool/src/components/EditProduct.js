@@ -115,12 +115,13 @@ export default function EditProduct(props) {
             {category.name}
             <button className="btn btn-sm mx-2"
                     data-category={category.name}
-                    onClick={(event) => handleDeleteCategory(event)}>🗑
+                    onClick={(event) => handleDeleteCategory(event)}>❌
             </button>
         </div>
     )
 
     const imagesToEdit = formData.images.map(image =>
+        <>
         <div
             key={image.id}>
             <img
@@ -128,10 +129,11 @@ export default function EditProduct(props) {
                 alt={image.name}
                 width="100px"
             />
-            <button className="btn btn-danger btn-sm mx-2"
-                    onClick={() => handleDeleteImage(image.id)}>🗑
-            </button>
         </div>
+        <button className="btn btn-sm mx-2"
+                onClick={() => handleDeleteImage(image.id)}>❌
+        </button>
+        </>
     )
 
     return (
@@ -157,17 +159,7 @@ export default function EditProduct(props) {
 
                     {/*{product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}*/}
 
-                    <p><br/></p>
-                    <p className="mt-3">
-                        Photos:
-                        <input
-                            type="file"
-                            multiple
-                            name="imageData"
-                            // value={formData.imageData}
-                            // value={imageData}
-                            onChange={handleImageData}/>
-                    </p>
+
 
                     <p><br/></p>
                     <h4>Description:</h4>
@@ -178,11 +170,22 @@ export default function EditProduct(props) {
                         value={formData.description}>
                     </textarea>
 
-                    <p>Photos:</p>
-                    <div className="d-flex">
+                    <p><br/></p>
+                    <h4>Photos:</h4>
+                    <div className="d-flex align-items-start">
                         {imagesToEdit}
                     </div>
-                    <p><br/></p>
+                    <p className="mt-3">
+                        <input
+                            type="file"
+                            multiple
+                            name="imageData"
+                            // value={formData.imageData}
+                            // value={imageData}
+                            onChange={handleImageData}/>
+                    </p>
+
+
                     <h4>Categories:</h4>
                     <div className="d-flex">
                         {categoriesToEdit}
@@ -197,6 +200,9 @@ export default function EditProduct(props) {
                             name="newcategory"
                             value={formData.newcategory}
                             onChange={handleFormData}
+                            onKeyUp={(event) => {
+                                if (event.key === "Enter") handleNewCategory(event)
+                            }}
                         />
                         <datalist>
                             <option value="food"></option>
@@ -208,7 +214,6 @@ export default function EditProduct(props) {
                         </div>
                     </div>
 
-                    <p><br/></p>
                     <h4 className="mt-3">Status:
                         <select name="status"
                             value={formData.status}

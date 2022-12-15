@@ -15,8 +15,8 @@ spring:
       ddl-auto: create-drop
   datasource:
     url: jdbc:postgresql://localhost:5432/tradecool
-    username: ika
-    password: 5555
+    username: luk4skoch
+    password: 123456
     driverClassName: org.postgresql.Driver
 
 
