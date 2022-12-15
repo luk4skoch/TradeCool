@@ -31,6 +31,7 @@ export default function Register() {
       }
     });
   }
+
   return (
     <Form onSubmit={registerUser}>
       <h3>Sign up</h3>

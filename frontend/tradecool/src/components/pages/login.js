@@ -57,6 +57,7 @@ export default function Login() {
           placeholder="Enter your email"
         />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="authPW">
         <Form.Label>Password</Form.Label>
         <Form.Control

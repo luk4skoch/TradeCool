@@ -14,6 +14,8 @@ export default function MainNavbar({ navTitle }) {
     localStorage.setItem("userToken", null);
     setUserToken({ userId: null });
   };
+
+
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
