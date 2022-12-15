@@ -187,7 +187,7 @@ export default function EditProduct(props) {
 
 
                     <h4>Categories:</h4>
-                    <div className="d-flex">
+                    <div className="d-flex flex-wrap">
                         {categoriesToEdit}
                     </div>
                     {/*<p>Add a category:</p>*/}
