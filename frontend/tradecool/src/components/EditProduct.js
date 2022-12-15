@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 
 export default function EditProduct(props) {
+    const deleteIcon = "&#10060;";
     const product = props.product;
     const [formData, setFormData] = useState({
         "id": (product.id),
@@ -97,12 +98,13 @@ export default function EditProduct(props) {
 
     const categoriesToEdit = formData.categories.map(category =>
         <div
-            className="m-1 p-2 bg-muted bg-secondary rounded"
+            className="m-1 p-2 bg-muted rounded"
+            style={{backgroundColor: "lightblue"}}
             key={category.name}>
             {category.name}
-            <button className="btn btn-danger btn-sm mx-2"
+            <button className="btn btn-sm mx-2"
                 data-category={category.name}
-                onClick={(event) => handleDeleteCategory(event)}>🗑</button>
+                onClick={(event) => handleDeleteCategory(event)}>&#10060;</button>
         </div>
     )
 
@@ -117,18 +119,19 @@ export default function EditProduct(props) {
                         onChange={handleFormData}
                     />
 
-                    <h3>Title:
+                    <h3>Title:</h3>
+
                         <input
-                            style={{ width: '75%' }}
-                            name="title"
-                            value={formData.title}
-                            onChange={handleFormData}
-                            required
+                        style={{ width: '75%' }}
+                        name="title"
+                        value={formData.title}
+                        onChange={handleFormData}
+                        required
                         />
-                    </h3>
 
-                    {product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}
+                    {/*{product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}*/}
 
+                    <p><br/></p>
                     <p className="mt-3">
                         Photo:
                         <input
@@ -139,6 +142,8 @@ export default function EditProduct(props) {
                             onChange={handleImageData} />
                     </p>
 
+                    <p><br/></p>
+                    <h4>Description:</h4>
                     <textarea
                         name="description"
                         className="mt-3" rows="5" cols="36"
@@ -146,11 +151,12 @@ export default function EditProduct(props) {
                         value={formData.description}>
                     </textarea>
 
-                    <p>Categories:</p>
+                    <p><br/></p>
+                    <h4>Categories:</h4>
                     <div className="d-flex">
                         {categoriesToEdit}
                     </div>
-                    <p>Add a category:</p>
+                    {/*<p>Add a category:</p>*/}
 
                     <div className="input-group mb-3">
                         <input
@@ -160,6 +166,7 @@ export default function EditProduct(props) {
                             name="newcategory"
                             value={formData.newcategory}
                             onChange={handleFormData}
+
                         />
                         <datalist>
                             <option value="food"></option>
@@ -170,19 +177,16 @@ export default function EditProduct(props) {
                         </div>
                     </div>
 
-
-
-                    <p className="mt-3">Status:
+                    <p><br/></p>
+                    <h4 className="mt-3">Status:
                         <select name="status"
                             value={formData.status}
-                            onChange={handleFormData}
-                        >
+                            onChange={handleFormData}>
                             <option value="OPEN">OPEN</option>
                             <option value="SOLD">SOLD</option>
                             <option value="RESERVED">RESERVED</option>
                         </select>
-                    </p>
-
+                    </h4>
 
                 </Col>
                 <Col md={4} className="mt-5">
