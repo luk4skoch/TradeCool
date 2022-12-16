@@ -8,7 +8,7 @@ export default function MainLayout() {
   const [userToken, setUserToken] = React.useState(
     localStorage.getItem("userToken")
   );
-
+  if (!userToken) setUserToken({ userId: null });
   return (
     <div>
       <UserTokenContext.Provider value={[userToken, setUserToken]}>
