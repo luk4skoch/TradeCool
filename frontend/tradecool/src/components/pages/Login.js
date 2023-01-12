@@ -1,30 +1,36 @@
 import React from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import {useUserTokenUpdateContext} from "../../context/UserTokenContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState([]);
+  const setUserToken = useUserTokenUpdateContext();
 
   const loginUser = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    const basicAuthToken = btoa(formDataEntries["email"] + ":" + formDataEntries["password"]);
+    const auth = formDataEntries["email"] + ":" + formDataEntries["password"];
+    const basicAuthToken = btoa(auth);
+    const authorization = "Basic " + basicAuthToken;
+
+    let headers = new Headers();
+    headers.append("Authorization", authorization);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: headers,
+      // redirect: 'follow'
+    };
     fetch(
       "http://localhost:8080/auth/signin",      
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Basic " + basicAuthToken
-        },
-      }
+      requestOptions
     ).then((res) => {
       if (res.ok) {
-        res.json().then((token) => {
-          localStorage.setItem("userToken", token);
-        });
+        res.text().then(token => {localStorage.setItem("userToken", token)
+          setUserToken(token)});
         navigate("/");
       } else {
         res.text().then((result) => {

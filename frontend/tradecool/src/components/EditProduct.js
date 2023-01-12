@@ -28,7 +28,6 @@ export default function EditProduct(props) {
 
     const handleImageData = (event) => {
         setImageData(event.target.files);
-        console.log(imageData);
     }
 
     const handleNewCategory = () => {
@@ -61,7 +60,6 @@ export default function EditProduct(props) {
                 images: newImages
             }
         })
-        console.log(formData);
     }
 
     const sendFormData = () => {

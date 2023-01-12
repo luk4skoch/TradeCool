@@ -22,6 +22,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthEndPoint {
     private final Logger LOG = LoggerFactory.getLogger(AuthEndPoint.class);
     private AuthService authService;

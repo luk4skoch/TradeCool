@@ -6,8 +6,10 @@ import Stack from 'react-bootstrap/Stack';
 import React from 'react'
 
 import ImageCarousel from './ImageCarousel'
+import {useUserTokenContext} from "../context/UserTokenContext";
 
 export default function Product(props) {
+    const userToken = useUserTokenContext();
     const product = props.product;
     const handleEdit = () => props.setEditOn(true);
     const handleDelete = () => {
@@ -31,7 +33,6 @@ export default function Product(props) {
             {category.name}
         </div>
     )
-    console.log(product)
     return (
         <Container>
             <Row>
@@ -54,13 +55,14 @@ export default function Product(props) {
                             </div>
                         </>}
                 </Col>
+                {userToken &&
                 <Col md={4} className="mt-5">
                     <Stack gap={3} id="">
                         <Button variant="success">Trade!</Button>{' '}
                         <Button variant="warning" onClick={handleEdit}>Edit</Button>{' '}
                         <Button variant="danger" onClick={handleDelete}>Delete</Button>{' '}
                     </Stack>
-                </Col>
+                </Col>}
             </Row>
 
         </Container>
