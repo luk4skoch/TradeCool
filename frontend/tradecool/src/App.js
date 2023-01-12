@@ -5,6 +5,7 @@ import Home from "./components/pages/Home";
 import Overview from "./components/pages/Overview";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Chat from "./components/Chat";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/overview" element={<Overview />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/chat/:senderId/:productId/:receiverId" element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>
