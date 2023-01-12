@@ -3,7 +3,9 @@ spring:
     active: "dev-postgres"
   main:
     banner-mode: "off"
-
+rsa:
+  public-key: classpath:certs/public.pem
+  private-key: classpath:certs/private.pem
 ---
 spring:
   config:
@@ -18,8 +20,6 @@ spring:
     username: ReactSpringSecUserServices
     password: ZAjzkIXjQMIvWa5v
     driverClassName: org.postgresql.Driver
-jwt:
-  secret: 8dUS5AhkJ81p8TFTRT9O6WuITgthmL3N
 ---
 spring:
   config:
@@ -39,6 +39,5 @@ spring:
     database: H2
     hibernate:
       ddl-auto: update
-jwt:
-  secret: 8dUS5AhkJ81p8TFTRT9O6WuITgthmL3N
+
 ---

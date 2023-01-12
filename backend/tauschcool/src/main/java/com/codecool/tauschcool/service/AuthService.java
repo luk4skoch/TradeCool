@@ -3,11 +3,10 @@ package com.codecool.tauschcool.service;
 import com.codecool.tauschcool.model.Role;
 import com.codecool.tauschcool.model.RoleType;
 import com.codecool.tauschcool.model.User;
-import com.codecool.tauschcool.model.UserToken;
 import com.codecool.tauschcool.repository.RoleRepository;
 import com.codecool.tauschcool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -16,12 +15,12 @@ import java.util.Set;
 
 @Service
 public class AuthService {
-    private static Set<UserToken> tokens;
+    private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-    @Autowired
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository) {
+    public AuthService(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
@@ -34,22 +33,8 @@ public class AuthService {
             if (role.isPresent()) roles.add(role.get());
         }
         user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public Optional<User> loginUser(String email, String password) {
-       return userRepository.findByEmail(email);
-    }
-
-    public boolean isValid(UserToken token){
-        return true;
-    }
-
-    public boolean emailExist(String email) {
-        if (userRepository.findByEmail(email).isPresent()){
-            return true;
-        }else{
-            return false;
-        }
-    }
 }
