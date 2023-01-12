@@ -156,11 +156,6 @@ export default function EditProduct(props) {
                             onChange={handleFormData}
                             required
                         />
-
-                    {/*{product.id !== undefined && <Image src={product.imageData ? "data:image/png;base64," + product.imageData : "https://placehold.it/"} width='90%' />}*/}
-
-
-
                     <p><br/></p>
                     <h4>Description:</h4>
                     <textarea

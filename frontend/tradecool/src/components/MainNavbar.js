@@ -1,18 +1,16 @@
 import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { UserTokenContext } from "./context/UserToken";
 
 export default function MainNavbar({ navTitle }) {
-  const [userToken, setUserToken] = useContext(UserTokenContext);
   const navigate = useNavigate();
   const navigateTo = (route) => {
     navigate(route);
   };
-
+  const userToken = localStorage.getItem("userToken");
+  const userName = userToken ? atob(userToken).name : null;
   const signOut = () => {
     localStorage.setItem("userToken", null);
-    setUserToken({ userId: null });
   };
 
   return (
@@ -45,7 +43,7 @@ export default function MainNavbar({ navTitle }) {
             Overview
           </Nav.Link>
 
-          {!userToken.userId && (
+          {!userToken && (
             <Nav.Link
               href="#"
               onClick={() => {
@@ -56,7 +54,7 @@ export default function MainNavbar({ navTitle }) {
             </Nav.Link>
           )}
 
-          {!userToken.userId && (
+          {!userToken && (
             <Nav.Link
               href="#"
               onClick={() => {
@@ -67,9 +65,9 @@ export default function MainNavbar({ navTitle }) {
             </Nav.Link>
           )}
 
-          {userToken.userId && (
+          {userToken && (
             <Nav.Link href="#" onClick={signOut}>
-              <Nav.Item>Welcome, {userToken.userName}! Sign out</Nav.Item>
+              <Nav.Item>Welcome, {userName}! Sign out</Nav.Item>
             </Nav.Link>
           )}
         </Nav>

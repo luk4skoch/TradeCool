@@ -1,36 +1,29 @@
 import React from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { UserTokenContext } from "../context/UserToken";
 
 export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState([]);
 
-  const [userToken, setUserToken] = React.useContext(UserTokenContext);
-
   const loginUser = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-
+    const basicAuthToken = btoa(formDataEntries["email"] + ":" + formDataEntries["password"]);
     fetch(
-      "http://localhost:8080/auth/login?email=" +
-        formDataEntries["email"] +
-        "&password=" +
-        formDataEntries["password"],
+      "http://localhost:8080/auth/signin",      
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Basic " + basicAuthToken
         },
       }
     ).then((res) => {
       if (res.ok) {
         res.json().then((token) => {
-          setUserToken(token);
-          console.log(token);
-          localStorage.setItem("userToken", userToken);
+          localStorage.setItem("userToken", token);
         });
         navigate("/");
       } else {
@@ -45,9 +38,10 @@ export default function Login() {
   const navigateToSignUP = () => {
     navigate("/register");
   };
-
+  console.log(errors);
   return (
-    <Form onSubmit={loginUser}>
+    <div className="form-groups">
+    <Form onSubmit={loginUser} >
       <h3>Sign in</h3>
       <Form.Group className="mb-3" controlId="authMail">
         <Form.Label>Email</Form.Label>
@@ -77,7 +71,8 @@ export default function Login() {
           </a>
         </p>
       </FormGroup>
-      {errors && <Alert>{errors}</Alert>}
+      {/* {errors && <Alert>{errors}</Alert>} */}
     </Form>
+    </div>
   );
 }
