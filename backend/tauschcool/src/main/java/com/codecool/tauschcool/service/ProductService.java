@@ -59,7 +59,9 @@ public class ProductService {
 
     public Product saveProduct(Product product) {
         product.setCategories(getCategories(product.getCategories()));
-        product.setImages(imageService.compressImages(product.getImages()));
+        try {
+            product.setImages(imageService.compressImages(product.getImages()));
+        } catch (NullPointerException ignored) {}
         return productRepository.save(product);
     }
 
