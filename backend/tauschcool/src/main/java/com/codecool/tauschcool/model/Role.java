@@ -1,9 +1,11 @@
 package com.codecool.tauschcool.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Getter
