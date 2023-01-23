@@ -23,12 +23,11 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<ImageData> images;
 
-//    @OneToOne
-//    private User user;
-
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Category> categories;
 
-
     private ProductStatus status;
+
+    @ManyToOne
+    private User user;
 }
