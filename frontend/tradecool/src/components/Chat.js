@@ -21,15 +21,17 @@ function Chat() {
     }, []);
 
 
-    let title = "Chat";
-    if (messages.length > 0) {
-        title = "Chat of " + messages[0].product.title;
+    function getTitle() {
+        if (messages.length > 0) {
+            return "Chat of " + messages[0].product.title
+        }
+        return "Chat"
     }
 
     return (
         <div>
             <h1>
-                {title}
+                {getTitle}
             </h1>
             <div>
                 { messages && messages.map(item => (
