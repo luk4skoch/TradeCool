@@ -1,22 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import {useUserTokenContext} from "../context/UserTokenContext";
+import {useParams} from "react-router";
+import {redirect} from "react-router-dom";
 
 export default function EditProduct(props) {
-    const userToken =useUserTokenContext();
-    const product = props.product;
+    const userToken = useUserTokenContext();
     const [formData, setFormData] = useState({
-        "id": (product.id),
-        "title": (product.title),
-        "description": (product.description),
-        "status": (product.status),
+        "id": "",
+        "title": "",
+        "description": "",
+        "status": "OPEN",
         "newcategory": "",
-        "categories": [...product.categories],
-        "userId": 0,
-        "images": [...product.images]
+        "categories": [],
+        "images": []
     });
+
+    const {productId} = useParams();
+    useEffect(() => {
+        if (productId > 0) {
+            const requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+            fetch("http://localhost:8080/api/products/" + productId, requestOptions)
+                .then(response => response.json())
+                .then(result => setFormData({...result, "newcategory": ""}))
+                .catch(error => console.log('error', error));
+        } else {
+
+        }
+    }, [])
+
     const [imageData, setImageData] = useState([])
 
     const handleFormData = (event) => {
@@ -98,14 +115,8 @@ export default function EditProduct(props) {
             headers: headers,
             referrerPolicy: 'no-referrer',
             body: formDataToSend
-        }).then(data => data.json().then((data) => data.id !== undefined && props.setCurrentProductId(data.id)));
-        props.setEditOn(false);
+        }).then(data => data.json().then((data) => console.log(data)).then(() => redirect("/products")));
     };
-
-    const currentProductToDefault = () => {
-        props.setCurrentProductId(0);
-        props.setEditOn(false);
-    }
 
     const categoriesToEdit = formData.categories.map(category =>
         <div
@@ -115,24 +126,24 @@ export default function EditProduct(props) {
             {category.name}
             <button className="btn btn-sm mx-2"
                     data-category={category.name}
-                    onClick={(event) => handleDeleteCategory(event)}>❌
+                    onClick={(event) => handleDeleteCategory(event)}><span role="img">❌</span>
             </button>
         </div>
     )
 
     const imagesToEdit = formData.images.map(image =>
         <>
-        <div
-            key={image.id}>
-            <img
-                src={image ? "data:" + image.type + ";base64," + image.imageData : "https://placehold.it/"}
-                alt={image.name}
-                width="100px"
-            />
-        </div>
-        <button className="btn btn-sm mx-2"
-                onClick={() => handleDeleteImage(image.id)}>❌
-        </button>
+            <div
+                key={image.id}>
+                <img
+                    src={image ? "data:" + image.type + ";base64," + image.imageData : "https://placehold.it/"}
+                    alt={image.name}
+                    width="100px"
+                />
+            </div>
+            <button className="btn btn-sm mx-2"
+                    onClick={() => handleDeleteImage(image.id)}>❌
+            </button>
         </>
     )
 
@@ -149,13 +160,13 @@ export default function EditProduct(props) {
 
                     <h3>Title:</h3>
 
-                        <input
-                            style={{width: '75%'}}
-                            name="title"
-                            value={formData.title}
-                            onChange={handleFormData}
-                            required
-                        />
+                    <input
+                        style={{width: '75%'}}
+                        name="title"
+                        value={formData.title}
+                        onChange={handleFormData}
+                        required
+                    />
                     <p><br/></p>
                     <h4>Description:</h4>
                     <textarea
@@ -211,8 +222,8 @@ export default function EditProduct(props) {
 
                     <h4 className="mt-3">Status:
                         <select name="status"
-                            value={formData.status}
-                            onChange={handleFormData}>
+                                value={formData.status}
+                                onChange={handleFormData}>
                             <option value="OPEN">OPEN</option>
                             <option value="SOLD">SOLD</option>
                             <option value="RESERVED">RESERVED</option>
@@ -223,7 +234,7 @@ export default function EditProduct(props) {
                 <Col md={4} className="mt-5">
                     <Stack gap={3}>
                         <Button variant="success" onClick={sendFormData}>Save</Button>{' '}
-                        <Button variant="warning" onClick={currentProductToDefault}>Cancel</Button>{' '}
+                        <Button variant="warning" onClick={() => redirect("/products")}>Cancel</Button>{' '}
                     </Stack>
                 </Col>
             </Row>

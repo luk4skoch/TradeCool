@@ -23,7 +23,7 @@ export default function MainNavbar({navTitle}) {
             <Container>
                 <Navbar.Brand
                     onClick={() => {
-                        navigateTo("/");
+                        navigateTo("/home");
                     }}
                     href="#"
                 >
@@ -33,7 +33,7 @@ export default function MainNavbar({navTitle}) {
                     <Nav.Link
                         href="#"
                         onClick={() => {
-                            navigateTo("/");
+                            navigateTo("/home");
                         }}
                     >
                         Home
@@ -42,7 +42,7 @@ export default function MainNavbar({navTitle}) {
                     <Nav.Link
                         href="#"
                         onClick={() => {
-                            navigateTo("/overview");
+                            navigateTo("/products");
                         }}
                     >
                         Overview

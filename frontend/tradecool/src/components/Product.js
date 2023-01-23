@@ -3,15 +3,33 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 import ImageCarousel from './ImageCarousel'
 import {useUserTokenContext} from "../context/UserTokenContext";
+import {useParams} from "react-router";
+import {Link} from "react-router-dom";
 
 export default function Product(props) {
     const userToken = useUserTokenContext();
-    const product = props.product;
-    const handleEdit = () => props.setEditOn(true);
+    const [product, setProduct] = useState({
+        title: "",
+        description: "",
+        images: [],
+        status: "OPEN",
+        categories: [],
+    })
+    let {productId} = useParams();
+    useEffect(() => {
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch("http://localhost:8080/api/products/" + productId, requestOptions)
+            .then(response => response.json())
+            .then(result => setProduct(result))
+            .catch(error => console.log('error', error));
+    }, [])
     const handleDelete = () => {
         let url = 'http://localhost:8080/api/products/' + product.id;
         fetch(url, {
@@ -33,6 +51,7 @@ export default function Product(props) {
             {category.name}
         </div>
     )
+
     return (
         <Container>
             <Row>
@@ -41,7 +60,7 @@ export default function Product(props) {
                         {product.title}
                     </h3>
                     <h6 className={statusClass}>
-                        {product.status}
+                        { product.status}
                     </h6>
                     {
                         <ImageCarousel images={product.images}/>
@@ -54,12 +73,13 @@ export default function Product(props) {
                                 {categories}
                             </div>
                         </>}
+                            {/*<p className="mt-3">Added by {product.user.username}</p>*/}
                 </Col>
                 {userToken &&
                 <Col md={4} className="mt-5">
                     <Stack gap={3} id="">
                         <Button variant="success">Trade!</Button>{' '}
-                        <Button variant="warning" onClick={handleEdit}>Edit</Button>{' '}
+                        <Button variant="warning"><Link style={{textDecoration: "none", color: "white"}} to={"/products/"+ productId + "/edit"}>Edit</Link></Button>{' '}
                         <Button variant="danger" onClick={handleDelete}>Delete</Button>{' '}
                     </Stack>
                 </Col>}
