@@ -12,7 +12,7 @@ function Chat() {
     let receiverId = variableString.substring(variableString.indexOf("/") + 1);
     //console.log("receiver: " + receiverId);
 
-    const [messages, setMessages] = useState(null);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:8080/message/${senderId}/${productId}/${receiverId}`)
@@ -21,12 +21,15 @@ function Chat() {
     }, []);
 
 
-    console.log(messages);
+    let title = "Chat";
+    if (messages.length > 0) {
+        title = "Chat of " + messages[0].product.title;
+    }
 
     return (
         <div>
             <h1>
-                Chat of {messages && messages[0].product.title}
+                {title}
             </h1>
             <div>
                 { messages && messages.map(item => (
