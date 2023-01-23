@@ -26,7 +26,6 @@ function Overview() {
         title: "",
         description: "",
         images: [],
-        userId: null,
         status: "OPEN",
         categories: [],
       }

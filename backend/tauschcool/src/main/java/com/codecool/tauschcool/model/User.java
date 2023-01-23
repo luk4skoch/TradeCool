@@ -42,22 +42,4 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-//    public User(String username, String email, String location, String imagePath, String password) {
-//        this.username = username;
-//        this.email = email;
-//        this.location = location;
-//        this.imagePath = imagePath;
-//        this.password = password;
-//    }
-
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", name='" + username + '\'' +
-//                ", email='" + email + '\'' +
-//                ", location='" + location + '\'' +
-//                ", productList=" + productList +
-//                '}';
-//    }
 }

@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
+import {useUserTokenContext} from "../context/UserTokenContext";
 
 export default function EditProduct(props) {
+    const userToken =useUserTokenContext();
     const product = props.product;
     const [formData, setFormData] = useState({
         "id": (product.id),
@@ -63,6 +65,8 @@ export default function EditProduct(props) {
     }
 
     const sendFormData = () => {
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + userToken)
         let url = 'http://localhost:8080/api/products';
         let formDataToSend = new FormData();
         const json = JSON.stringify(formData);
@@ -91,9 +95,7 @@ export default function EditProduct(props) {
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
-            // headers: {
-            //     'Content-Type': 'application/json'
-            // },
+            headers: headers,
             referrerPolicy: 'no-referrer',
             body: formDataToSend
         }).then(data => data.json().then((data) => data.id !== undefined && props.setCurrentProductId(data.id)));
