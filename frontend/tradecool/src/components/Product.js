@@ -29,7 +29,7 @@ export default function Product(props) {
             .then(response => response.json())
             .then(result => setProduct(result))
             .catch(error => console.log('error', error));
-    }, [])
+    }, [product])
     const handleDelete = () => {
         let url = 'http://localhost:8080/api/products/' + product.id;
         fetch(url, {
@@ -73,7 +73,7 @@ export default function Product(props) {
                                 {categories}
                             </div>
                         </>}
-                            {/*<p className="mt-3">Added by {product.user.username}</p>*/}
+                    {product.user && <p className="mt-3">Added by {product.user.username}</p>}
                 </Col>
                 {userToken &&
                 <Col md={4} className="mt-5">

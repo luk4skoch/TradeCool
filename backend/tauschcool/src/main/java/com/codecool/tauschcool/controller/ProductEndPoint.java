@@ -44,17 +44,15 @@ public class ProductEndPoint {
 
     @PostMapping("images")
     public Product addProduct(@RequestPart("images") MultipartFile[] images,
-                              @RequestPart("product") Product product) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName()).get();
+                              @RequestPart("product") Product product, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).get();
         product.setUser(user);
         return productService.saveProduct(product, images);
     }
 
     @PostMapping
-    public Product addProductNoImages(@RequestPart("product") Product product) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(authentication.getName()).get();
+    public Product addProductNoImages(@RequestPart("product") Product product, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).get();
         product.setUser(user);
         return productService.saveProduct(product);
     }

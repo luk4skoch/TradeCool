@@ -98,7 +98,7 @@ export default function EditProduct(props) {
             url += "/images"
         }
         let method;
-        if (formData.id !== undefined) {
+        if (formData.id > 0) {
             // edit
             method = 'PUT'
             // url += '/' + formData.id;
@@ -115,7 +115,10 @@ export default function EditProduct(props) {
             headers: headers,
             referrerPolicy: 'no-referrer',
             body: formDataToSend
-        }).then(data => data.json().then((data) => console.log(data)).then(() => redirect("/products")));
+        }).then(data => data.json()
+            .then((data) => console.log(data))
+            .then(() => redirect("/products")))
+            .catch(err => console.error(err));
     };
 
     const categoriesToEdit = formData.categories.map(category =>
