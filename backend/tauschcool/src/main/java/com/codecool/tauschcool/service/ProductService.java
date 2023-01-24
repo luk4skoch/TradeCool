@@ -58,6 +58,9 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
+        if (product.getUser() == null) {
+
+        }
         product.setCategories(getCategories(product.getCategories()));
         try {
             product.setImages(imageService.compressImages(product.getImages()));

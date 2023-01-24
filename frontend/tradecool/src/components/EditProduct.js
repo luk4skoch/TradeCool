@@ -4,10 +4,11 @@ import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import {useUserTokenContext} from "../context/UserTokenContext";
 import {useParams} from "react-router";
-import {redirect} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function EditProduct(props) {
     const userToken = useUserTokenContext();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         "id": "",
         "title": "",
@@ -17,7 +18,6 @@ export default function EditProduct(props) {
         "categories": [],
         "images": []
     });
-
     const {productId} = useParams();
     useEffect(() => {
         if (productId > 0) {
@@ -27,20 +27,17 @@ export default function EditProduct(props) {
             };
             fetch("http://localhost:8080/api/products/" + productId, requestOptions)
                 .then(response => response.json())
-                .then(result => setFormData({...result, "newcategory": ""}))
+                .then(result => setFormData({...result}))
                 .catch(error => console.log('error', error));
-        } else {
-
         }
     }, [])
-
     const [imageData, setImageData] = useState([])
 
     const handleFormData = (event) => {
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
-                [event.target.name]: event.target.value || event.target.innerText
+                [event.target.name]: event.target.value || event.target.innerText,
             }
         })
     }
@@ -50,20 +47,20 @@ export default function EditProduct(props) {
     }
 
     const handleNewCategory = () => {
+        let newCategory = {"name": formData.newcategory};
         setFormData(prevFormData => {
-            let newCategory = {"name": prevFormData.newcategory};
-            prevFormData.newcategory = "";
             return {
                 ...prevFormData,
-                categories: [...prevFormData.categories, newCategory]
+                categories: [...prevFormData.categories, newCategory],
+                newcategory: ""
             }
         })
     }
 
     const handleDeleteCategory = event => {
+        let oldCategories = [...formData.categories];
+        let updatedCategories = oldCategories.filter(category => category.name !== event.currentTarget.dataset.category);
         setFormData(prevFormData => {
-            let oldCategories = [...prevFormData.categories];
-            let updatedCategories = oldCategories.filter(category => category.name !== event.target.dataset.category);
             return {
                 ...prevFormData,
                 categories: updatedCategories
@@ -98,10 +95,9 @@ export default function EditProduct(props) {
             url += "/images"
         }
         let method;
-        if (formData.id !== undefined) {
+        if (formData.id > 0) {
             // edit
             method = 'PUT'
-            // url += '/' + formData.id;
         } else {
             // add
             method = 'POST'
@@ -115,7 +111,10 @@ export default function EditProduct(props) {
             headers: headers,
             referrerPolicy: 'no-referrer',
             body: formDataToSend
-        }).then(data => data.json().then((data) => console.log(data)).then(() => redirect("/products")));
+        }).then(data => data.json()
+            .then((data) => console.log(data)))
+            .then(() => navigate("/products"))
+            .catch(err => console.error(err));
     };
 
     const categoriesToEdit = formData.categories.map(category =>
@@ -146,7 +145,6 @@ export default function EditProduct(props) {
             </button>
         </>
     )
-
     return (
         <Container>
             <Row>
@@ -234,7 +232,7 @@ export default function EditProduct(props) {
                 <Col md={4} className="mt-5">
                     <Stack gap={3}>
                         <Button variant="success" onClick={sendFormData}>Save</Button>{' '}
-                        <Button variant="warning" onClick={() => redirect("/products")}>Cancel</Button>{' '}
+                        <Button variant="warning" onClick={() => navigate(productId ? "/products/" + productId : "/products")}>Cancel</Button>{' '}
                     </Stack>
                 </Col>
             </Row>
