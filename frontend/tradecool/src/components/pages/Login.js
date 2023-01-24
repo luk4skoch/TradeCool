@@ -1,37 +1,36 @@
 import React from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { UserTokenContext } from "../context/UserToken";
+import {useUserTokenUpdateContext} from "../../context/UserTokenContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState([]);
-
-  const [userToken, setUserToken] = React.useContext(UserTokenContext);
+  const setUserToken = useUserTokenUpdateContext();
 
   const loginUser = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
+    const auth = formDataEntries["email"] + ":" + formDataEntries["password"];
+    const basicAuthToken = btoa(auth);
+    const authorization = "Basic " + basicAuthToken;
 
+    let headers = new Headers();
+    headers.append("Authorization", authorization);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: headers,
+      // redirect: 'follow'
+    };
     fetch(
-      "http://localhost:8080/auth/login?email=" +
-        formDataEntries["email"] +
-        "&password=" +
-        formDataEntries["password"],
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      "http://localhost:8080/auth/signin",      
+      requestOptions
     ).then((res) => {
       if (res.ok) {
-        res.json().then((token) => {
-          setUserToken(token);
-          console.log(token);
-          localStorage.setItem("userToken", userToken);
-        });
+        res.text().then(token => {localStorage.setItem("userToken", token)
+          setUserToken(token)});
         navigate("/");
       } else {
         res.text().then((result) => {
@@ -45,9 +44,10 @@ export default function Login() {
   const navigateToSignUP = () => {
     navigate("/register");
   };
-
+  console.log(errors);
   return (
-    <Form onSubmit={loginUser}>
+    <div className="form-groups">
+    <Form onSubmit={loginUser} >
       <h3>Sign in</h3>
       <Form.Group className="mb-3" controlId="authMail">
         <Form.Label>Email</Form.Label>
@@ -77,7 +77,8 @@ export default function Login() {
           </a>
         </p>
       </FormGroup>
-      {errors && <Alert>{errors}</Alert>}
+       {errors && <Alert>{errors}</Alert>}
     </Form>
+    </div>
   );
 }

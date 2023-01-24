@@ -3,7 +3,9 @@ spring:
     active: "dev-postgres"
   main:
     banner-mode: "off"
-
+rsa:
+  public-key: classpath:certs/public.pem
+  private-key: classpath:certs/private.pem
 ---
 spring:
   config:
@@ -17,9 +19,10 @@ spring:
     url: jdbc:postgresql://pg.micakovic.at:5432/tradecool
     username: ReactSpringSecUserServices
     password: ZAjzkIXjQMIvWa5v
+#    url: jdbc:postgresql://localhost:5432/tradecool
+#    username: ika
+#    password: 5555
     driverClassName: org.postgresql.Driver
-jwt:
-  secret: 8dUS5AhkJ81p8TFTRT9O6WuITgthmL3N
 ---
 spring:
   config:
@@ -39,6 +42,5 @@ spring:
     database: H2
     hibernate:
       ddl-auto: update
-jwt:
-  secret: 8dUS5AhkJ81p8TFTRT9O6WuITgthmL3N
+
 ---

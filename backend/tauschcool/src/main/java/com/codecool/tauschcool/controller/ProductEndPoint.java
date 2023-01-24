@@ -1,11 +1,17 @@
 package com.codecool.tauschcool.controller;
 
+import com.codecool.tauschcool.dto.UserPrinciple;
 import com.codecool.tauschcool.model.Product;
+import com.codecool.tauschcool.model.User;
+import com.codecool.tauschcool.repository.UserRepository;
 import com.codecool.tauschcool.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +20,14 @@ import java.util.Optional;
 @RequestMapping("api/products")
 public class ProductEndPoint {
     private final ProductService productService;
+    private final UserRepository userRepository;
+
     @Autowired
-    public ProductEndPoint(ProductService service) {
+    public ProductEndPoint(ProductService service,
+                           UserRepository userRepository) {
 
         this.productService = service;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -35,11 +45,17 @@ public class ProductEndPoint {
     @PostMapping("images")
     public Product addProduct(@RequestPart("images") MultipartFile[] images,
                               @RequestPart("product") Product product) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName()).get();
+        product.setUser(user);
         return productService.saveProduct(product, images);
     }
 
     @PostMapping
     public Product addProductNoImages(@RequestPart("product") Product product) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName()).get();
+        product.setUser(user);
         return productService.saveProduct(product);
     }
 

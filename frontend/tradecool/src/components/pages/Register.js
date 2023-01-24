@@ -13,7 +13,7 @@ export default function Register() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    fetch("http://localhost:8080/auth/register", {
+    fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,57 +26,57 @@ export default function Register() {
         res.text().then((result) => {
           setErrors(result);
         });
-        console.log(errors);
       }
     });
   }
-
   return (
-    <Form onSubmit={registerUser}>
-      <h3>Sign up</h3>
-      <Form.Group className="mb-3" controlId="regName">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          name="name"
-          type="text"
-          placeholder="Enter your username"
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="regMail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          onChange={() => {
-            setErrors("");
-          }}
-          name="email"
-          type="email"
-          placeholder="Enter your email"
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="regLocation">
-        <Form.Label>Location</Form.Label>
-        <Form.Control
-          name="location"
-          type="text"
-          placeholder="Enter your Location"
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="regPW">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          name="password"
-          type="password"
-          placeholder="Enter your password"
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="regPWRepeat">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Repeat your password" />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Sign up now
-      </Button>
-      {errors && <Alert>{errors}</Alert>}
-    </Form>
+    <div className="form-groups">
+      <Form onSubmit={registerUser} >
+        <h3>Sign up</h3>
+        <Form.Group className="mb-3" controlId="regName">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="regMail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            onChange={() => {
+              setErrors("");
+            }}
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="regLocation">
+          <Form.Label>Location</Form.Label>
+          <Form.Control
+            name="location"
+            type="text"
+            placeholder="Enter your Location"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="regPW">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="regPWRepeat">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Repeat your password" />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Sign up now
+        </Button>
+         {errors.length === 0 ? <Alert>{errors}</Alert> : <br />}
+      </Form>
+    </div>
   );
 }
