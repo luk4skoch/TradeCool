@@ -9,9 +9,11 @@ import ImageCarousel from './ImageCarousel'
 import {useUserTokenContext} from "../context/UserTokenContext";
 import {useParams} from "react-router";
 import {Link} from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 export default function Product(props) {
     const userToken = useUserTokenContext();
+    const userName = userToken ? jwtDecode(userToken).sub : null;
     const [product, setProduct] = useState({
         title: "",
         description: "",
@@ -74,13 +76,17 @@ export default function Product(props) {
                             </div>
                         </>}
                     {product.user && <p className="mt-3">Added by {product.user.username}</p>}
+
                 </Col>
-                {userToken &&
+                { userToken &&
                 <Col md={4} className="mt-5">
                     <Stack gap={3} id="">
-                        <Button variant="success">Trade!</Button>{' '}
-                        <Button variant="warning"><Link style={{textDecoration: "none", color: "white"}} to={"/products/"+ productId + "/edit"}>Edit</Link></Button>{' '}
-                        <Button variant="danger" onClick={handleDelete}>Delete</Button>{' '}
+                        <Button variant="success">Trade!</Button>
+
+                        { product.user && userName === product.user.email &&
+                            <>
+                        <Button variant="warning"><Link style={{textDecoration: "none", color: "white"}} to={"/products/"+ productId + "/edit"}>Edit</Link></Button>
+                        <Button variant="danger" onClick={handleDelete}>Delete</Button> </>}
                     </Stack>
                 </Col>}
             </Row>
