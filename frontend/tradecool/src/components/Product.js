@@ -8,11 +8,12 @@ import React, {useEffect, useState} from 'react'
 import ImageCarousel from './ImageCarousel'
 import {useUserTokenContext} from "../context/UserTokenContext";
 import {useParams} from "react-router";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 export default function Product(props) {
     const userToken = useUserTokenContext();
+    const navigate = useNavigate();
     const userName = userToken ? jwtDecode(userToken).sub : null;
     const [product, setProduct] = useState({
         title: "",
@@ -33,6 +34,9 @@ export default function Product(props) {
             .catch(error => console.log('error', error));
     }, [product])
     const handleDelete = () => {
+        if (!window.confirm("Are you sure you want to delete this product?")) {
+            return;
+        }
         let url = 'http://localhost:8080/api/products/' + product.id;
         fetch(url, {
             method: 'DELETE',
@@ -44,6 +48,7 @@ export default function Product(props) {
             },
             referrerPolicy: 'no-referrer',
         })
+        navigate("/products")
     }
     const statusClass = product.status === 'OPEN' ? 'text-success' : product.status === 'SOLD' ? 'text-danger' : 'text-warning';
     const categories = product.categories.map(category =>

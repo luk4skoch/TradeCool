@@ -4,10 +4,11 @@ import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import {useUserTokenContext} from "../context/UserTokenContext";
 import {useParams} from "react-router";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function EditProduct(props) {
     const userToken = useUserTokenContext();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         "id": "",
         "title": "",
@@ -17,7 +18,6 @@ export default function EditProduct(props) {
         "categories": [],
         "images": []
     });
-
     const {productId} = useParams();
     useEffect(() => {
         if (productId > 0) {
@@ -29,11 +29,8 @@ export default function EditProduct(props) {
                 .then(response => response.json())
                 .then(result => setFormData({...result}))
                 .catch(error => console.log('error', error));
-        } else {
-
         }
     }, [])
-    console.log(formData.categories)
     const [imageData, setImageData] = useState([])
 
     const handleFormData = (event) => {
@@ -116,6 +113,7 @@ export default function EditProduct(props) {
             body: formDataToSend
         }).then(data => data.json()
             .then((data) => console.log(data)))
+            .then(() => navigate("/products"))
             .catch(err => console.error(err));
     };
 
@@ -233,8 +231,8 @@ export default function EditProduct(props) {
                 </Col>
                 <Col md={4} className="mt-5">
                     <Stack gap={3}>
-                        <Button variant="success" onClick={sendFormData}><Link to={productId ? "/products/" + productId : "/products"}>Save</Link></Button>{' '}
-                        <Button variant="warning"><Link to={productId ? "/products/" + productId : "/products"}>Cancel</Link></Button>{' '}
+                        <Button variant="success" onClick={sendFormData}>Save</Button>{' '}
+                        <Button variant="warning" onClick={() => navigate(productId ? "/products/" + productId : "/products")}>Cancel</Button>{' '}
                     </Stack>
                 </Col>
             </Row>
