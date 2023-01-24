@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import '../chat.css';
 
 function Chat() {
     let currentUrl = window.location.href;
@@ -61,12 +62,15 @@ function Chat() {
             <h1>
                 {getTitle}
             </h1>
-            <div>
-                { messages && messages.map(item => (
-                    <div key={item.id}>
-                        <p><b>{item.sender.name}: </b> {item.text}</p>
-                    </div>
-                ))}
+            <div className={"scrollBox"} >
+                <div className={"inner-scrollBox"}>
+                    { messages && messages.map(item => (
+                        <div key={item.id}>
+                            <p><b>{item.sender.name}: </b> {item.text}</p>
+                        </div>
+                    ))}
+                </div>
+
             </div>
             <div style={{position: "absolute", bottom: 100}}>
                     <label htmlFor={"text-input"} >Write here:&nbsp;</label>
