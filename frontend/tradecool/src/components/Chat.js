@@ -14,11 +14,39 @@ function Chat() {
 
     const [messages, setMessages] = useState([]);
 
-    useEffect(() => {
+    useEffect(getMessages, [messages]);
+
+    function getMessages() {
         fetch(`http://localhost:8080/message/${senderId}/${productId}/${receiverId}`)
             .then(response => response.json())
             .then(data => setMessages(data))
-    }, []);
+    }
+
+    function postMessage() {
+        const text = document.getElementById("text-input").value;
+        console.log(text)
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                text: text,
+                sender: {
+                    id: 1, name: "Pete"
+                },
+                product: {title: "myProduct", id: 1},
+                receiverId: 2
+            })
+        };
+        fetch('http://localhost:8080/message', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setState({postId: data.id}));
+        getMessages();
+
+        document.getElementById("text-input").value = "";
+    }
+
+
 
 
     function getTitle() {
@@ -40,8 +68,19 @@ function Chat() {
                     </div>
                 ))}
             </div>
+            <div style={{position: "absolute", bottom: 100}}>
+                    <label htmlFor={"text-input"} >Write here:&nbsp;</label>
+                    <input type={"text"} id={"text-input"} size={60} onKeyUp={function (e) {
+                        if (e.key === 'Enter') {
+                        postMessage();
+                    }
+                    }} />
+                    <button onClick={postMessage}>SEND</button>
+            </div>
         </div>
     )
 }
+
+
 
 export default Chat;
