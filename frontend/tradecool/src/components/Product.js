@@ -90,7 +90,7 @@ export default function Product(props) {
 
                         { product.user && userName === product.user.email &&
                             <>
-                        <Button variant="warning"><Link style={{textDecoration: "none", color: "white"}} to={"/products/"+ productId + "/edit"}>Edit</Link></Button>
+                        <Button variant="warning" onClick={() => navigate("/products/"+ productId + "/edit")}>Edit</Button>
                         <Button variant="danger" onClick={handleDelete}>Delete</Button> </>}
                     </Stack>
                 </Col>}
