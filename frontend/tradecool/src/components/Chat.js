@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import '../chat.css';
 
 function Chat() {
+    let tempDate;
+
     let currentUrl = window.location.href;
     let variableString = currentUrl.substring(27);
     //console.log("allVariables: " + variableString);
@@ -77,6 +79,8 @@ function Chat() {
 
     let title = getTitle();
 
+
+
     function getTime(timestamp) {
         let date = new Date(timestamp);
         //return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
@@ -89,6 +93,23 @@ function Chat() {
             minutes = "0" + minutes;
         }
         return hours + ":" + minutes;
+    }
+
+    function processDate(timestamp) {
+        let date = new Date(timestamp);
+        let dateString = date.toDateString();
+        if (dateString !== tempDate) {
+            tempDate = dateString;
+            return dateString;
+        }
+    }
+
+    function getDateClasses(timestamp) {
+        let date = new Date(timestamp);
+        if (date.toDateString() !== tempDate) {
+            return "message date"
+        }
+        return ""
     }
 
     function getMessageClasses(message) {
@@ -106,9 +127,16 @@ function Chat() {
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
                     { messages && messages.map(message => (
-                        <div key={message.id} className={getMessageClasses(message)} >
-                            <p><b>{message.sender.username}: </b> {message.text}</p>
-                            <p className={"time"}>{getTime(message.timestamp)}</p>
+                        <div key={message.id} >
+                            <div className={getDateClasses(message.timestamp)}>
+                                {processDate(message.timestamp)}
+                            </div>
+
+                            <div className={getMessageClasses(message)}>
+                                <p><b>{message.sender.username}: </b> {message.text}</p>
+                                <p className={"time"}>{getTime(message.timestamp)}</p>
+                            </div>
+
                         </div>
                     ))}
                 </div>

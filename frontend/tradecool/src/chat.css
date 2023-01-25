@@ -6,7 +6,7 @@
     margin: auto;
     display: flex;
     flex-direction: column-reverse;
-    background-color: #e5e0b5;
+    background-color: #fbffc2;
 }
 
 .inner-scrollBox {
@@ -19,6 +19,8 @@
     text-align: right;
 }
 
+
+
 .textBox {
     position: absolute;
     bottom:70px;
@@ -30,6 +32,14 @@
     padding: 5px 10px 0px 10px;
     margin: 5px;
 }
+
+.date {
+     border: 1px solid #c4c4c4;
+     text-align: center;
+     margin-right: 38vh;
+     margin-left: 38vh;
+     background-color: #f1f1f1;
+ }
 
 .left {
     border: 2px solid darkblue;
