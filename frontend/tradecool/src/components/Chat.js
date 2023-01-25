@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import '../chat.css';
 
 function Chat() {
     let tempDate;
 
+    const navigate = useNavigate();
+
     let currentUrl = window.location.href;
     let variableString = currentUrl.substring(27);
     //console.log("allVariables: " + variableString);
-    let senderId = variableString.substring(0, variableString.indexOf("/"));
+    const senderId = variableString.substring(0, variableString.indexOf("/"));
     //console.log("sender: " + senderId);
     variableString = variableString.substring(variableString.indexOf("/") + 1);
-    let productId = variableString.substring(0, variableString.indexOf("/"));
+    const productId = variableString.substring(0, variableString.indexOf("/"));
     //console.log("product: " + productId);
     let receiverId = variableString.substring(variableString.indexOf("/") + 1);
     //console.log("receiver: " + receiverId);
 
     const [messages, setMessages] = useState([]);
+    const [otherUsers, setOtherUsers] = useState([]);
 
     useEffect(getMessages, [messages]);
 
@@ -30,7 +34,7 @@ function Chat() {
         const sender = await getSender();
         const product = await getProduct();
 
-        console.log(sender)
+        //console.log(sender)
 
         const requestOptions = {
             method: 'POST',
@@ -77,13 +81,12 @@ function Chat() {
         return "Chat"
     }
 
-    let title = getTitle();
+    const title = getTitle();
 
 
 
     function getTime(timestamp) {
-        let date = new Date(timestamp);
-        //return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
+        const date = new Date(timestamp);
         let hours = date.getHours().toString();
         let minutes = date.getMinutes().toString();
         if (hours.length === 1) {
@@ -96,8 +99,8 @@ function Chat() {
     }
 
     function processDate(timestamp) {
-        let date = new Date(timestamp);
-        let dateString = date.toDateString();
+        const date = new Date(timestamp);
+        const dateString = date.toDateString();
         if (dateString !== tempDate) {
             tempDate = dateString;
             return dateString;
@@ -105,7 +108,7 @@ function Chat() {
     }
 
     function getDateClasses(timestamp) {
-        let date = new Date(timestamp);
+        const date = new Date(timestamp);
         if (date.toDateString() !== tempDate) {
             return "message date"
         }
@@ -119,11 +122,44 @@ function Chat() {
         return "message left";
     }
 
+    function changeChat() {
+
+        const newId = document.getElementById("input-select").value;
+        let newUrl = currentUrl.substring(0, currentUrl.length - 1) + newId;
+        console.log(newUrl)
+        window.location.href = newUrl;
+        //navigate(newUrl)
+    }
+
+     function getChatOptions() {
+         fetch(`http://localhost:8080/message/options/${senderId}/${productId}`)
+            .then(response => response.json())
+            .then(data => setOtherUsers(data))
+        return (
+            <div>
+                <label htmlFor={"input-select"}>Chose a Chat:</label>
+                <select id={"input-select"} >
+                    {otherUsers && otherUsers.map(user => (
+                        <option onClick={changeChat} value={user.id}>{user.username}</option>
+                    ))}
+                    <div key={otherUsers.id}>
+                    </div>
+                </select>
+            </div>
+        )
+    }
+
+
     return (
         <div>
             <h1>
                 {title}
             </h1>
+
+            {getChatOptions()}
+
+
+
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
                     { messages && messages.map(message => (

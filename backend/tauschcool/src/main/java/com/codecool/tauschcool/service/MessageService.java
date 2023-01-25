@@ -57,4 +57,12 @@ public class MessageService {
         message.setTimestamp(Timestamp.from(Instant.now()));
         messageRepository.save(message);
     }
+
+    public List<User> getChatOptions(long senderId, long productId) {
+        return messageRepository.findAll().stream()
+                .filter(m -> m.getReceiverId().equals(senderId))
+                .filter(m -> m.getProduct().getId().equals(productId))
+                .map(Message::getSender)
+                .collect(Collectors.toList());
+    }
 }

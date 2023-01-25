@@ -1,7 +1,7 @@
 .scrollBox {
     min-height: 500px;
     min-width: 500px;
-    height:35vw;
+    height:33vw;
     width:50vw;
     border:1px solid #ccc;
     overflow:scroll;
@@ -23,7 +23,7 @@
 
 .textBox {
     position: absolute;
-    bottom:70px;
+    bottom:10vh;
 }
 
 .message {
@@ -34,6 +34,7 @@
 }
 
 .date {
+    min-width: 150px;
      border: 1px solid #c4c4c4;
      text-align: center;
      margin-right: 38vh;

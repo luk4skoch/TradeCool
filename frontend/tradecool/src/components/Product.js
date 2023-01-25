@@ -61,12 +61,11 @@ export default function Product(props) {
     )
 
     function getChat() {
-
         return (
             <div>
-
-                {product.user && <Button variant="success"><Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Trade!</Link></Button>
-                }
+                {product.user && <Button variant="success">
+                    <Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Trade!</Link>
+                </Button>}
             </div>
         )
     }
