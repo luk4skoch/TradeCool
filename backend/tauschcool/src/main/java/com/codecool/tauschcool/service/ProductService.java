@@ -38,7 +38,10 @@ public class ProductService {
     }
 
     public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+        Product product = productRepository.findById(id).orElse(null);
+        assert product != null;
+        product.setImages(imageService.decompressImages(product.getImages()));
+        return Optional.of(product);
     }
 
     private Set<Category> getCategories(Set<Category> categories) {
