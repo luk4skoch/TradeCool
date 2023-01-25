@@ -1,12 +1,12 @@
 .scrollBox {
-    height:75vw;
-    width:80vw;
+    height:35vw;
+    width:50vw;
     border:1px solid #ccc;
-    font:16px/26px Georgia, Garamond, Serif;
     overflow:scroll;
     margin: auto;
     display: flex;
     flex-direction: column-reverse;
+
 }
 
 .inner-scrollBox {

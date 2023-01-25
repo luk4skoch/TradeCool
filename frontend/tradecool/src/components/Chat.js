@@ -23,20 +23,21 @@ function Chat() {
             .then(data => setMessages(data))
     }
 
-    function postMessage() {
+    async function postMessage() {
         const text = document.getElementById("text-input").value;
-        console.log(text)
+        const sender = await getSender();
+        const product = await getProduct();
+
+        console.log(sender)
 
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 text: text,
-                sender: {
-                    id: 1, name: "Pete"
-                },
-                product: {title: "myProduct", id: 1},
-                receiverId: 2
+                sender: sender,
+                product: product,
+                receiverId: receiverId
             })
         };
         fetch('http://localhost:8080/message', requestOptions)
@@ -45,6 +46,23 @@ function Chat() {
         getMessages();
 
         document.getElementById("text-input").value = "";
+    }
+
+
+    async function getSender() {
+        let result;
+        await fetch(`http://localhost:8080/api/user/${senderId}`)
+            .then(response => response.json())
+            .then(data => result = data)
+        return result;
+    }
+
+    async function getProduct() {
+        let result;
+        await fetch(`http://localhost:8080/api/products/${productId}`)
+            .then(response => response.json())
+            .then(data => result = data)
+        return result;
     }
 
 
@@ -57,30 +75,32 @@ function Chat() {
         return "Chat"
     }
 
+    let title = getTitle();
+
     return (
         <div>
-            <h1>
-                {getTitle}
+            <h1 id={"lol"}>
+                {title}
             </h1>
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
                     { messages && messages.map(item => (
                         <div key={item.id}>
-                            <p><b>{item.sender.name}: </b> {item.text}</p>
+                            <p><b>{item.sender.username}: </b> {item.text}</p>
                         </div>
                     ))}
                 </div>
-
-            </div>
-            <div style={{position: "absolute", bottom: 100}}>
+                <div style={{position: "absolute", bottom: 100}}>
                     <label htmlFor={"text-input"} >Write here:&nbsp;</label>
                     <input type={"text"} id={"text-input"} size={60} onKeyUp={function (e) {
                         if (e.key === 'Enter') {
-                        postMessage();
-                    }
+                            postMessage();
+                        }
                     }} />
                     <button onClick={postMessage}>SEND</button>
+                </div>
             </div>
+
         </div>
     )
 }
