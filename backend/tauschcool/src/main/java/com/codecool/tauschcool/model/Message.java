@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Message implements Comparable<Message> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +23,9 @@ public class Message {
     private Product product;
     private Long receiverId;
     private Timestamp timestamp;
+
+    @Override
+    public int compareTo(Message o) {
+        return getTimestamp().compareTo(o.getTimestamp());
+    }
 }

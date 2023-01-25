@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class MessageService {
                 .toList();
         List<Message> messagesOfTransaction = new ArrayList<>(senderMessages);
         messagesOfTransaction.addAll(receiverMessages);
+        Collections.sort(messagesOfTransaction);
         return messagesOfTransaction;
     }
 
