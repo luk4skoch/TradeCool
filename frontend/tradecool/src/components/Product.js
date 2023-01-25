@@ -38,14 +38,15 @@ export default function Product(props) {
             return;
         }
         let url = 'http://localhost:8080/api/products/' + product.id;
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + userToken)
+        headers.append("Content-Type", "application/json")
         fetch(url, {
             method: 'DELETE',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             referrerPolicy: 'no-referrer',
         })
         navigate("/products")

@@ -6,6 +6,7 @@ import com.codecool.tauschcool.model.User;
 import com.codecool.tauschcool.repository.UserRepository;
 import com.codecool.tauschcool.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +36,14 @@ public class ProductEndPoint {
         return productService.getProductList();
     }
 
+    @GetMapping("users")
+    public List<Product> getProductsByUser(Principal principal) {
+        return productService.getProductsByUser(principal);
+    }
+
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
+
         Optional<Product> product = productService.getProductById(id);
         return product
                 .orElseGet(() -> null);
@@ -47,29 +54,30 @@ public class ProductEndPoint {
                               @RequestPart("product") Product product, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
         product.setUser(user);
-        return productService.saveProduct(product, images);
+        return productService.saveProduct(product, images, principal);
     }
 
     @PostMapping
     public Product addProductNoImages(@RequestPart("product") Product product, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
         product.setUser(user);
-        return productService.saveProduct(product);
+        return productService.saveProduct(product, principal);
     }
 
     @PutMapping("images")
     public Product editProductById(@RequestPart("images") MultipartFile[] images,
-                                   @RequestPart("product") Product product) {
-        return productService.saveProduct(product, images);
+                                   @RequestPart("product") Product product,
+                                   Principal principal) {
+        return productService.saveProduct(product, images, principal);
     }
 
     @PutMapping
-    public Product editProductNoImages(@RequestPart("product") Product product) {
-        return productService.saveProduct(product);
+    public Product editProductNoImages(@RequestPart("product") Product product, Principal principal) {
+        return productService.saveProduct(product, principal);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProductById(@PathVariable Long id) {
-        productService.deleteProductById(id);
+    public void deleteProductById(@PathVariable Long id, Principal principal) {
+        productService.deleteProductById(id, principal);
     }
 }

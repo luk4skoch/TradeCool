@@ -6,10 +6,13 @@ import com.codecool.tauschcool.model.Product;
 import com.codecool.tauschcool.repository.CategoryRepository;
 import com.codecool.tauschcool.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -53,13 +56,17 @@ public class ProductService {
         return categories;
     }
 
-    public void deleteProductById(Long id) {
+    public void deleteProductById(Long id, Principal principal)  {
+        Product product = productRepository.findById(id).orElseThrow(() -> {throw new RuntimeException("Product not found.");});
+        if (!product.getUser().getEmail().equals(principal.getName())) {
+            throw new RuntimeException("Not authorized for this action!");
+        }
         productRepository.deleteById(id);
     }
 
-    public Product saveProduct(Product product) {
-        if (product.getUser() == null) {
-
+    public Product saveProduct(Product product, Principal principal) {
+        if (!product.getUser().getEmail().equals(principal.getName())) {
+            throw new RuntimeException("Not authorized to edit");
         }
         product.setCategories(getCategories(product.getCategories()));
         try {
@@ -68,7 +75,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product saveProduct(Product product, MultipartFile[] images) {
+    public Product saveProduct(Product product, MultipartFile[] images, Principal principal) {
+        if (!product.getUser().getEmail().equals(principal.getName())) {
+            throw new RuntimeException("Not authorized to edit");
+        }
         product.setCategories(getCategories(product.getCategories()));
         if (images.length != 0) {
             Set<ImageData> imageSet = Arrays.stream(images).map(
@@ -89,5 +99,9 @@ public class ProductService {
             }
         }
         return productRepository.save(product);
+    }
+
+    public List<Product> getProductsByUser(Principal principal) {
+        return productRepository.findProductByUserEmail(principal.getName());
     }
 }
