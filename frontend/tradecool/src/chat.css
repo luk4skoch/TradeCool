@@ -12,3 +12,7 @@
 .inner-scrollBox {
     flex-direction: column;
 }
+
+small {
+    font-size: 10px;
+}

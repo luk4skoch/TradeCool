@@ -77,16 +77,23 @@ function Chat() {
 
     let title = getTitle();
 
+    function formatTimestamp(timestamp) {
+        let date = new Date(timestamp);
+        return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
+    }
+
     return (
         <div>
-            <h1 id={"lol"}>
+            <h1>
                 {title}
             </h1>
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
-                    { messages && messages.map(item => (
-                        <div key={item.id}>
-                            <p><b>{item.sender.username}: </b> {item.text}</p>
+                    { messages && messages.map(message => (
+                        <div key={message.id}>
+                            <p><b>{message.sender.username}: </b> {message.text}
+                                <br></br><small>{formatTimestamp(message.timestamp)}</small></p>
+
                         </div>
                     ))}
                 </div>
