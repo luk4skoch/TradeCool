@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { useRevalidator } from "react-router";
 import { useUserTokenUpdateContext } from "../../context/UserTokenContext";
-import { secFetch } from "../utils/FetchUtils";
+import { secFetch, basicFetch } from "../utils/FetchUtils";
 
 export default function Login() {
+  let revalidator = useRevalidator();
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState();
   const setUserToken = useUserTokenUpdateContext();
+  if (!localStorage.getItem("userToken")) {
+    setUserToken();
+  }
 
   const loginUser = (e) => {
     e.preventDefault();
@@ -24,7 +29,7 @@ export default function Login() {
       method: "POST",
       headers: headers,
     };
-    secFetch("/auth/signin", requestOptions).then((res) => {
+    basicFetch("/auth/signin", requestOptions).then((res) => {
       if (res.ok) {
         res.text().then((token) => {
           localStorage.setItem("userToken", token);

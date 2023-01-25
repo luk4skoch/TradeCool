@@ -34,7 +34,12 @@ export default function Register() {
 
   return (
     <div className="form-groups">
-      <Form onSubmit={registerUser}>
+      <Form
+        onSubmit={registerUser}
+        onChange={() => {
+          setErrors(null);
+        }}
+      >
         <h3>Sign up</h3>
         <Form.Group className="mb-3" controlId="regName">
           <Form.Label>Username</Form.Label>
@@ -47,9 +52,6 @@ export default function Register() {
         <Form.Group className="mb-3" controlId="regMail">
           <Form.Label>Email</Form.Label>
           <Form.Control
-            onChange={() => {
-              setErrors(null);
-            }}
             name="email"
             type="email"
             placeholder="Enter your email"
