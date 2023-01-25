@@ -142,7 +142,7 @@ function Chat() {
                 </div>
                 <div className={"textBox"}>
                     <label htmlFor={"text-input"} >Write here:&nbsp;</label>
-                    <input type={"text"} id={"text-input"} size={60} onKeyUp={function (e) {
+                    <input type={"text"} id={"text-input"} size={window.innerWidth / 26} onKeyUp={function (e) {
                         if (e.key === 'Enter') {
                             postMessage();
                         }

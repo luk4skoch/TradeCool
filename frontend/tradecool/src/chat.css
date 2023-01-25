@@ -1,4 +1,6 @@
 .scrollBox {
+    min-height: 500px;
+    min-width: 500px;
     height:35vw;
     width:50vw;
     border:1px solid #ccc;
@@ -18,8 +20,6 @@
     font-size: 10px;
     text-align: right;
 }
-
-
 
 .textBox {
     position: absolute;
