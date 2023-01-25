@@ -77,10 +77,18 @@ function Chat() {
 
     let title = getTitle();
 
-    function formatTimestamp(timestamp) {
+    function getTime(timestamp) {
         let date = new Date(timestamp);
         //return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
-        return date.getHours() + ":" + date.getMinutes();
+        let hours = date.getHours().toString();
+        let minutes = date.getMinutes().toString();
+        if (hours.length === 1) {
+            hours = "0" + hours;
+        }
+        if (minutes.length === 1) {
+            minutes = "0" + minutes;
+        }
+        return hours + ":" + minutes;
     }
 
     function getMessageClasses(message) {
@@ -100,7 +108,7 @@ function Chat() {
                     { messages && messages.map(message => (
                         <div key={message.id} className={getMessageClasses(message)} >
                             <p><b>{message.sender.username}: </b> {message.text}</p>
-                            <p className={"time"}>{formatTimestamp(message.timestamp)}</p>
+                            <p className={"time"}>{getTime(message.timestamp)}</p>
                         </div>
                     ))}
                 </div>
