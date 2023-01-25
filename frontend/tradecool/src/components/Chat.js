@@ -83,6 +83,13 @@ function Chat() {
         return date.getHours() + ":" + date.getMinutes();
     }
 
+    function getMessageClasses(message) {
+        if (message.sender.id == senderId) {
+            return "message right";
+        }
+        return "message left";
+    }
+
     return (
         <div>
             <h1>
@@ -91,19 +98,13 @@ function Chat() {
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
                     { messages && messages.map(message => (
-                        <div key={message.id} className={"message"}>
-
-
-                            <p><b>{message.sender.username}: </b> {message.text}
-
-                                 </p>
+                        <div key={message.id} className={getMessageClasses(message)} >
+                            <p><b>{message.sender.username}: </b> {message.text}</p>
                             <p className={"time"}>{formatTimestamp(message.timestamp)}</p>
-
-
                         </div>
                     ))}
                 </div>
-                <div style={{position: "absolute", bottom: 100}}>
+                <div className={"textBox"}>
                     <label htmlFor={"text-input"} >Write here:&nbsp;</label>
                     <input type={"text"} id={"text-input"} size={60} onKeyUp={function (e) {
                         if (e.key === 'Enter') {

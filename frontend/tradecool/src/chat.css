@@ -6,11 +6,12 @@
     margin: auto;
     display: flex;
     flex-direction: column-reverse;
-
+    background-color: #e5e0b5;
 }
 
 .inner-scrollBox {
     flex-direction: column;
+
 }
 
 .time {
@@ -18,11 +19,26 @@
     text-align: right;
 }
 
-.message {
-    border-radius: 25px;
-    border: 1px solid black;
-    padding: 5px 15px 0px 15px;
+.textBox {
+    position: absolute;
+    bottom:70px;
+}
 
+.message {
+    border-radius: 20px;
+    border: 1px solid black;
+    padding: 5px 10px 0px 10px;
+    margin: 5px;
+}
+
+.left {
+    margin-right: 100px;
+    background-color: #61dafb;
+}
+
+.right {
+    margin-left: 100px;
+    background-color: lightgreen;
 }
 
 p { margin:3px }
