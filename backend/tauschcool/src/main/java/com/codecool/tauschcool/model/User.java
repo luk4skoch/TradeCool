@@ -35,7 +35,7 @@ public class User {
 
     private String imagePath;
 
-    @NotBlank @JsonIgnore
+    @NotBlank
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",

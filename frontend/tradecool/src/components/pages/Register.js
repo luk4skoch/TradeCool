@@ -25,7 +25,7 @@ export default function Register() {
       } else {
         res.text().then((result) => {
           setErrors(result);
-        });
+        }).catch(err => console.log(err));
       }
     });
   }
