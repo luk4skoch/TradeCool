@@ -43,7 +43,6 @@ public class ProductEndPoint {
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-
         Optional<Product> product = productService.getProductById(id);
         return product
                 .orElseGet(() -> null);
@@ -54,7 +53,7 @@ public class ProductEndPoint {
                               @RequestPart("product") Product product, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
         product.setUser(user);
-        return productService.saveProduct(product, images, principal);
+        return productService.saveProduct(product, images);
     }
 
     @PostMapping
@@ -69,7 +68,7 @@ public class ProductEndPoint {
     @PutMapping("images")
     public Product editProductById(@RequestPart("images") MultipartFile[] images,
                                    @RequestPart("product") Product product) {
-        return productService.saveProduct(product);
+        return productService.saveProduct(product, images);
     }
 
 

@@ -69,7 +69,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product saveProduct(Product product, MultipartFile[] images, Principal principal) {
+    public Product saveProduct(Product product, MultipartFile[] images) {
         product.setCategories(getCategories(product.getCategories()));
         if (images.length != 0) {
             Set<ImageData> imageSet = Arrays.stream(images).map(
