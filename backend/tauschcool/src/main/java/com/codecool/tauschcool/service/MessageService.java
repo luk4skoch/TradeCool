@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,7 +44,7 @@ public class MessageService {
         List<Message> messagesOfTransaction = new ArrayList<>(senderMessages);
         messagesOfTransaction.addAll(receiverMessages);
         Collections.sort(messagesOfTransaction);
-        return messagesOfTransaction;
+        return messagesOfTransaction.stream().distinct().collect(Collectors.toList());
     }
 
     public void postNewMessage(Message message) {
@@ -63,6 +61,7 @@ public class MessageService {
                 .filter(m -> m.getReceiverId().equals(senderId))
                 .filter(m -> m.getProduct().getId().equals(productId))
                 .map(Message::getSender)
+                .distinct()
                 .collect(Collectors.toList());
     }
 }
