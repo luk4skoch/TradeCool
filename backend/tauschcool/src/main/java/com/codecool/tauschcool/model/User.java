@@ -18,25 +18,29 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "users",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private String username;
+
     @NaturalId
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     private String location;
 
+
+    @NotBlank
+    private String password;
+
     private String imagePath;
 
-    @NotBlank @JsonIgnore
-    private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
