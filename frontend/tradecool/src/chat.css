@@ -13,6 +13,17 @@
     flex-direction: column;
 }
 
-small {
+.time {
     font-size: 10px;
+    text-align: right;
 }
+
+.message {
+    border-radius: 25px;
+    border: 1px solid black;
+    padding: 5px 15px 0px 15px;
+
+}
+
+p { margin:3px }
+

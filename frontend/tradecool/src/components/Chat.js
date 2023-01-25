@@ -79,7 +79,8 @@ function Chat() {
 
     function formatTimestamp(timestamp) {
         let date = new Date(timestamp);
-        return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
+        //return date.toDateString() + ", " + date.getHours() + ":" + date.getMinutes();
+        return date.getHours() + ":" + date.getMinutes();
     }
 
     return (
@@ -90,9 +91,14 @@ function Chat() {
             <div className={"scrollBox"} >
                 <div className={"inner-scrollBox"}>
                     { messages && messages.map(message => (
-                        <div key={message.id}>
+                        <div key={message.id} className={"message"}>
+
+
                             <p><b>{message.sender.username}: </b> {message.text}
-                                <br></br><small>{formatTimestamp(message.timestamp)}</small></p>
+
+                                 </p>
+                            <p className={"time"}>{formatTimestamp(message.timestamp)}</p>
+
 
                         </div>
                     ))}
