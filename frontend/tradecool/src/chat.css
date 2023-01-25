@@ -26,17 +26,19 @@
 
 .message {
     border-radius: 20px;
-    border: 1px solid black;
+
     padding: 5px 10px 0px 10px;
     margin: 5px;
 }
 
 .left {
+    border: 2px solid darkblue;
     margin-right: 100px;
     background-color: #61dafb;
 }
 
 .right {
+    border: 2px solid darkgreen;
     margin-left: 100px;
     background-color: lightgreen;
 }
