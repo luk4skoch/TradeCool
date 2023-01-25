@@ -56,18 +56,12 @@ public class ProductService {
         return categories;
     }
 
-    public void deleteProductById(Long id, Principal principal)  {
+    public void deleteProductById(Long id)  {
         Product product = productRepository.findById(id).orElseThrow(() -> {throw new RuntimeException("Product not found.");});
-        if (!product.getUser().getEmail().equals(principal.getName())) {
-            throw new RuntimeException("Not authorized for this action!");
-        }
         productRepository.deleteById(id);
     }
 
-    public Product saveProduct(Product product, Principal principal) {
-        if (!product.getUser().getEmail().equals(principal.getName())) {
-            throw new RuntimeException("Not authorized to edit");
-        }
+    public Product saveProduct(Product product) {
         product.setCategories(getCategories(product.getCategories()));
         try {
             product.setImages(imageService.compressImages(product.getImages()));
@@ -75,10 +69,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product saveProduct(Product product, MultipartFile[] images, Principal principal) {
-        if (!product.getUser().getEmail().equals(principal.getName())) {
-            throw new RuntimeException("Not authorized to edit");
-        }
+    public Product saveProduct(Product product, MultipartFile[] images) {
         product.setCategories(getCategories(product.getCategories()));
         if (images.length != 0) {
             Set<ImageData> imageSet = Arrays.stream(images).map(
