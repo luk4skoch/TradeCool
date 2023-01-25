@@ -41,4 +41,13 @@ public class UserService {
     public User addUser(User user) {
         return this.userRepository.save(user);
     }
+
+    public long getUserIdByEmail(String email) {
+        User user = getUserList().stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+        assert user != null;
+        return user.getId();
+    }
 }
