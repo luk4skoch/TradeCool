@@ -64,7 +64,7 @@ export default function Product(props) {
         return (
             <div>
                 {product.user && <Button variant="success">
-                    <Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Trade!</Link>
+                    <Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Chat</Link>
                 </Button>}
             </div>
         )

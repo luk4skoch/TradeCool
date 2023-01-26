@@ -76,7 +76,7 @@ function Chat() {
 
     function getTitle() {
         if (messages.length > 0) {
-            return "Chat of " + messages[0].product.title
+            return "Chat about " + messages[0].product.title
         }
         return "Chat"
     }
@@ -127,7 +127,6 @@ function Chat() {
         const newId = document.getElementById("input-select").value;
         let newUrl = currentUrl.substring(21, currentUrl.length - 1) + newId;
         //console.log(newUrl)
-        //window.location.href = newUrl;
         navigate(newUrl)
     }
 
