@@ -15,6 +15,7 @@ export default function Product(props) {
     const userToken = useUserTokenContext();
     const navigate = useNavigate();
     const userName = userToken ? jwtDecode(userToken).sub : null;
+    console.log(jwtDecode(userToken))
     const userId = userToken ? jwtDecode(userToken).userId : null;
     const [product, setProduct] = useState({
         title: "",

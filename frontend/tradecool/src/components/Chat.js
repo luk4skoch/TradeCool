@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import '../chat.css';
+import Button from "react-bootstrap/Button";
 
 function Chat() {
     let tempDate;
@@ -27,6 +28,7 @@ function Chat() {
         fetch(`http://localhost:8080/message/${senderId}/${productId}/${receiverId}`)
             .then(response => response.json())
             .then(data => setMessages(data))
+            .catch(err => console.log(err));
     }
 
     async function postMessage() {
@@ -182,7 +184,7 @@ function Chat() {
                             postMessage();
                         }
                     }} />
-                    <button onClick={postMessage}>SEND</button>
+                    <Button variant={"primary"} onClick={postMessage}>SEND</Button>
                 </div>
             </div>
 
