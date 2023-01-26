@@ -125,10 +125,10 @@ function Chat() {
     function changeChat() {
 
         const newId = document.getElementById("input-select").value;
-        let newUrl = currentUrl.substring(0, currentUrl.length - 1) + newId;
-        console.log(newUrl)
-        window.location.href = newUrl;
-        //navigate(newUrl)
+        let newUrl = currentUrl.substring(21, currentUrl.length - 1) + newId;
+        //console.log(newUrl)
+        //window.location.href = newUrl;
+        navigate(newUrl)
     }
 
      function getChatOptions() {
