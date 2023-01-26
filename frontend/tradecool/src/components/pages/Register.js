@@ -34,6 +34,8 @@ export default function Register() {
 
   return (
     <div className="form-groups">
+      {errors ? <Alert>{errors}</Alert> : <br />}
+
       <Form
         onSubmit={registerUser}
         onChange={() => {
@@ -80,7 +82,6 @@ export default function Register() {
         <Button variant="primary" type="submit">
           Sign up now
         </Button>
-        {errors ? <Alert>{errors}</Alert> : <br />}
       </Form>
     </div>
   );

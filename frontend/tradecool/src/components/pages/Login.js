@@ -48,7 +48,14 @@ export default function Login() {
 
   return (
     <div className="form-groups">
-      <Form onSubmit={loginUser}>
+      {errors ? <Alert>{errors}</Alert> : <br />}
+
+      <Form
+        onSubmit={loginUser}
+        onChange={() => {
+          setErrors(null);
+        }}
+      >
         <h3>Sign in</h3>
         <Form.Group className="mb-3" controlId="authMail">
           <Form.Label>Email</Form.Label>
@@ -78,7 +85,6 @@ export default function Login() {
             </a>
           </p>
         </FormGroup>
-        {errors ? <Alert>{errors}</Alert> : <br />}
       </Form>
     </div>
   );
