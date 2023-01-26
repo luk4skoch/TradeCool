@@ -39,14 +39,15 @@ export default function Product(props) {
             return;
         }
         let url = 'http://localhost:8080/api/products/' + product.id;
+        let headers = new Headers();
+        headers.append("Authorization", "Bearer " + userToken)
+        headers.append("Content-Type", "application/json")
         fetch(url, {
             method: 'DELETE',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             referrerPolicy: 'no-referrer',
         })
         navigate("/products")
@@ -100,7 +101,7 @@ export default function Product(props) {
 
                         { product.user && userName === product.user.email &&
                             <>
-                        <Button variant="warning"><Link style={{textDecoration: "none", color: "white"}} to={"/products/"+ productId + "/edit"}>Edit</Link></Button>
+                        <Button variant="warning" onClick={() => navigate("/products/"+ productId + "/edit")}>Edit</Button>
                         <Button variant="danger" onClick={handleDelete}>Delete</Button> </>}
                     </Stack>
                 </Col>

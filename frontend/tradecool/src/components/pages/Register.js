@@ -6,32 +6,42 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   function registerUser(e) {
     console.log("registering...");
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
+    console.log(formDataEntries);
+
     fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formDataEntries),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/login");
-      } else {
-        res.text().then((result) => {
-          setErrors(result);
-        });
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          navigate("/login");
+        }
+        return res.text();
+      })
+      .then((res) => setErrors(res))
+      .catch((err) => setErrors(err));
   }
+
   return (
     <div className="form-groups">
-      <Form onSubmit={registerUser} >
+      {errors ? <Alert>{errors}</Alert> : <br />}
+
+      <Form
+        onSubmit={registerUser}
+        onChange={() => {
+          setErrors(null);
+        }}
+      >
         <h3>Sign up</h3>
         <Form.Group className="mb-3" controlId="regName">
           <Form.Label>Username</Form.Label>
@@ -44,9 +54,6 @@ export default function Register() {
         <Form.Group className="mb-3" controlId="regMail">
           <Form.Label>Email</Form.Label>
           <Form.Control
-            onChange={() => {
-              setErrors("");
-            }}
             name="email"
             type="email"
             placeholder="Enter your email"
@@ -75,7 +82,6 @@ export default function Register() {
         <Button variant="primary" type="submit">
           Sign up now
         </Button>
-         {errors.length === 0 ? <Alert>{errors}</Alert> : <br />}
       </Form>
     </div>
   );

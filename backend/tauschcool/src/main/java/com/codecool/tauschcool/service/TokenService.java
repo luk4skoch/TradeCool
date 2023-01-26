@@ -31,6 +31,7 @@ public class TokenService {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
+                //.expiresAt(now.plus(1, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .claim("userId", userService.getUserIdByEmail(authentication.getName()))
