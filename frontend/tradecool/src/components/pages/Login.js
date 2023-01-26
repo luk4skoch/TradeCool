@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
-import { useRevalidator } from "react-router";
 import { useUserTokenUpdateContext } from "../../context/UserTokenContext";
-import { secFetch, basicFetch } from "../utils/FetchUtils";
+import { basicFetch } from "../utils/FetchUtils";
 
 export default function Login() {
-  let revalidator = useRevalidator();
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState();
   const setUserToken = useUserTokenUpdateContext();
