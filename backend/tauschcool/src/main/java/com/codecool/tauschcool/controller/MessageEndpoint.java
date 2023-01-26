@@ -1,6 +1,7 @@
 package com.codecool.tauschcool.controller;
 
 import com.codecool.tauschcool.model.Message;
+import com.codecool.tauschcool.model.User;
 import com.codecool.tauschcool.service.MessageService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,5 +26,10 @@ public class MessageEndpoint {
     @PostMapping
     public void postNewMessage(@RequestBody Message message) {
         messageService.postNewMessage(message);
+    }
+
+    @GetMapping("/options/{senderId}/{productId}")
+    public List<User> getChatOptions(@PathVariable Long senderId, @PathVariable Long productId) {
+        return messageService.getChatOptions(senderId, productId);
     }
 }

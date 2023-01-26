@@ -15,6 +15,7 @@ export default function Product(props) {
     const userToken = useUserTokenContext();
     const navigate = useNavigate();
     const userName = userToken ? jwtDecode(userToken).sub : null;
+    const userId = userToken ? jwtDecode(userToken).userId : null;
     const [product, setProduct] = useState({
         title: "",
         description: "",
@@ -61,6 +62,16 @@ export default function Product(props) {
         </div>
     )
 
+    function getChat() {
+        return (
+            <>
+                {product.user && <Button variant="success">
+                    <Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Chat</Link>
+                </Button>}
+            </>
+        )
+    }
+
     return (
         <Container>
             <Row>
@@ -85,17 +96,16 @@ export default function Product(props) {
                     {product.user && <p className="mt-3">Added by {product.user.username}</p>}
 
                 </Col>
-                { userToken &&
                 <Col md={4} className="mt-5">
                     <Stack gap={3} id="">
-                        <Button variant="success">Trade!</Button>
+                        {getChat()}
 
                         { product.user && userName === product.user.email &&
                             <>
                         <Button variant="warning" onClick={() => navigate("/products/"+ productId + "/edit")}>Edit</Button>
                         <Button variant="danger" onClick={handleDelete}>Delete</Button> </>}
                     </Stack>
-                </Col>}
+                </Col>
             </Row>
 
         </Container>

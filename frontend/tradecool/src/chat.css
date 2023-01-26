@@ -1,0 +1,58 @@
+.scrollBox {
+    min-height: 500px;
+    min-width: 500px;
+    height:33vw;
+    width:50vw;
+    border:1px solid #ccc;
+    overflow:scroll;
+    margin: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: #fbffc2;
+}
+
+.inner-scrollBox {
+    flex-direction: column;
+
+}
+
+.time {
+    font-size: 10px;
+    text-align: right;
+}
+
+.textBox {
+    position: absolute;
+    bottom:10vh;
+}
+
+.message {
+    border-radius: 20px;
+
+    padding: 5px 10px 0px 10px;
+    margin: 5px;
+}
+
+.date {
+    min-width: 150px;
+     border: 1px solid #c4c4c4;
+     text-align: center;
+     margin-right: 38vh;
+     margin-left: 38vh;
+     background-color: #f1f1f1;
+ }
+
+.left {
+    border: 2px solid darkblue;
+    margin-right: 100px;
+    background-color: #61dafb;
+}
+
+.right {
+    border: 2px solid darkgreen;
+    margin-left: 100px;
+    background-color: lightgreen;
+}
+
+p { margin:3px }
+
