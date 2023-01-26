@@ -32,11 +32,12 @@ export default function Product(props) {
             .then(response => response.json())
             .then(result => setProduct(result))
             .catch(error => console.log('error', error));
-    }, [product])
+    }, [productId])
     const handleDelete = () => {
         if (!window.confirm("Are you sure you want to delete this product?")) {
             return;
         }
+
         let url = 'http://localhost:8080/api/products/' + product.id;
         let headers = new Headers();
         headers.append("Authorization", "Bearer " + userToken)
