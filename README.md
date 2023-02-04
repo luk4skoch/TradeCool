@@ -45,7 +45,7 @@ Start react on port 3000.
 
 ### Backend
 
-Add your database name, user and password to the properties.yml file. Then run with Maven:
+Add your database name, user and password to the application.yml file. Then run with Maven:
 
 ```bash
   cd backend/tauschcool
