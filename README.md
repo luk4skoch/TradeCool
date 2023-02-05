@@ -54,7 +54,7 @@ Add your database name, user and password to the application.yml file. Then run 
 
 It will start the server on port 8080.
 
-In future, this app will be dockerized. 
+In the future, this app will be dockerized. 
 
 ## Authors
 
