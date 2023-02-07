@@ -4,22 +4,24 @@ import Button from 'react-bootstrap/Button';
 import React from 'react'
 import {useUserTokenContext} from "../context/UserTokenContext";
 import {Link, useNavigate} from "react-router-dom";
+import {useProductListContext} from "../context/ProductListContext";
 
 export default function Sidebar(props) {
     const userToken = useUserTokenContext();
     const navigate = useNavigate();
-
-    const productList = props.products.map(product => {
-        return (
-            <ProductBar product={product} key={product.id} />
-        )
-    })
+    const {products} = useProductListContext();
+console.log(products);
+    // const productList = products.map(product => {
+    //     return (
+    //         <ProductBar product={product} key={product.id} />
+    //     )
+    // })
     return (
         <Stack gap={1}>
             <input placeholder="Search..."></input>
             {userToken && <Button variant="primary" onClick={() => navigate("/products/add")}>Add new product to trade</Button>}
             <br />
-            {productList}
+            {/*{productList}*/}
         </Stack>
     );
 }

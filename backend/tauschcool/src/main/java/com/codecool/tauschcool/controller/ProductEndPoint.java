@@ -56,6 +56,7 @@ public class ProductEndPoint {
         return productService.saveProduct(product, images);
     }
 
+
     @PostMapping
     public Product addProductNoImages(@RequestPart("product") Product product, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
