@@ -9,10 +9,23 @@ function Overview() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    if (products.length === 0) {
+      fetchProducts();
+    }
+    const interval = setInterval(() => { fetchProducts() }, 3000);
+    return () => clearInterval(interval);
+
+  }, []);
+
+  function fetchProducts() {
     fetch("http://localhost:8080/api/products")
-      .then((data) => data.json())
-      .then((data) => setProducts(data));
-  }, [products]);
+        .then((data) => data.json())
+        .then((data) => setProducts(data));
+  }
+
+
+
+
 
   return (
     <Container className="mt-3">

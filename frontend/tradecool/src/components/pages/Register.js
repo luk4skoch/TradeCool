@@ -75,7 +75,6 @@ export default function Register() {
         <Button variant="primary" type="submit">
           Sign up now
         </Button>
-         {errors.length === 0 ? <Alert>{errors}</Alert> : <br />}
       </Form>
     </div>
   );

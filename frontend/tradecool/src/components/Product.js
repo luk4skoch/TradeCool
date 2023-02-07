@@ -33,7 +33,7 @@ export default function Product(props) {
             .then(response => response.json())
             .then(result => setProduct(result))
             .catch(error => console.log('error', error));
-    }, [product])
+    }, [productId])
     const handleDelete = () => {
         if (!window.confirm("Are you sure you want to delete this product?")) {
             return;
@@ -62,11 +62,11 @@ export default function Product(props) {
 
     function getChat() {
         return (
-            <div>
+            <>
                 {product.user && <Button variant="success">
                     <Link style={{textDecoration: "none", color: "white"}} to={"/chat/" + userId + "/" + productId + "/" + product.user.id}>Trade!</Link>
                 </Button>}
-            </div>
+            </>
         )
     }
 

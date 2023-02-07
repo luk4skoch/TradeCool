@@ -77,7 +77,6 @@ export default function Login() {
           </a>
         </p>
       </FormGroup>
-       {errors && <Alert>{errors}</Alert>}
     </Form>
     </div>
   );

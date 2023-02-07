@@ -20,19 +20,36 @@ function Chat() {
 
     const [messages, setMessages] = useState([]);
     const [otherUsers, setOtherUsers] = useState([]);
+    const [startUpChatOptions, setStartUpChatOptions] = useState(true);
+    const [startUpMessages, setStartUpMessages] = useState(true);
+    const [product, setProduct] = useState();
 
-    useEffect(getMessages, [messages]);
+    useEffect(() => {
+        if (startUpMessages) {
+            getMessages();
+            getProduct();
+            setStartUpMessages(false);
+        }
+            const interval = setInterval(() => { getMessages() }, 3000);
+            return () => clearInterval(interval);
+        }, []);
 
     function getMessages() {
+        refreshReceiverId()
         fetch(`http://localhost:8080/message/${senderId}/${productId}/${receiverId}`)
             .then(response => response.json())
             .then(data => setMessages(data))
+
+    }
+
+    function refreshReceiverId() {
+        receiverId = window.location.href.substring(29 + senderId.toString().length + productId.toString().length);
     }
 
     async function postMessage() {
         const text = document.getElementById("text-input").value;
         const sender = await getSender();
-        const product = await getProduct();
+       // const product = await getProduct();
 
         //console.log(sender)
 
@@ -49,7 +66,12 @@ function Chat() {
         fetch('http://localhost:8080/message', requestOptions)
             .then(response => response.json())
             .then(data => this.setState({postId: data.id}));
-        getMessages();
+
+        setTimeout(() => {
+            getMessages();
+        }, 200);
+
+
 
         document.getElementById("text-input").value = "";
     }
@@ -63,12 +85,10 @@ function Chat() {
         return result;
     }
 
-    async function getProduct() {
-        let result;
-        await fetch(`http://localhost:8080/api/products/${productId}`)
+    function getProduct() {
+        fetch(`http://localhost:8080/api/products/${productId}`)
             .then(response => response.json())
-            .then(data => result = data)
-        return result;
+            .then(data => setProduct(data))
     }
 
 
@@ -129,24 +149,37 @@ function Chat() {
         //console.log(newUrl)
         //window.location.href = newUrl;
         navigate(newUrl)
+        receiverId = variableString.substring(variableString.indexOf("/") + 1);
+        getMessages()
     }
 
      function getChatOptions() {
-         fetch(`http://localhost:8080/message/options/${senderId}/${productId}`)
+        let html = <></>;
+        if (product !== undefined) {
+            if (product.user.id == senderId) {
+                if (startUpChatOptions) {
+                    fetchChatOptions()
+                    setStartUpChatOptions( false);
+                }
+                html = <div>
+                    <label htmlFor={"input-select"}>Chose a Chat:</label>
+                    <select id={"input-select"} >
+                        {otherUsers && otherUsers.map(user => (
+                            <option onClick={changeChat} value={user.id}>{user.username}</option>
+                        ))}
+                        <div key={otherUsers.id}>
+                        </div>
+                    </select>
+                </div>
+            }
+        }
+        return (html)
+    }
+
+    function fetchChatOptions() {
+        fetch(`http://localhost:8080/message/options/${senderId}/${productId}`)
             .then(response => response.json())
             .then(data => setOtherUsers(data))
-        return (
-            <div>
-                <label htmlFor={"input-select"}>Chose a Chat:</label>
-                <select id={"input-select"} >
-                    {otherUsers && otherUsers.map(user => (
-                        <option onClick={changeChat} value={user.id}>{user.username}</option>
-                    ))}
-                    <div key={otherUsers.id}>
-                    </div>
-                </select>
-            </div>
-        )
     }
 
 
@@ -161,7 +194,7 @@ function Chat() {
 
 
             <div className={"scrollBox"} >
-                <div className={"inner-scrollBox"}>
+                <div className={"inner-scrollBox"} id={"chatbox"}>
                     { messages && messages.map(message => (
                         <div key={message.id} >
                             <div className={getDateClasses(message.timestamp)}>

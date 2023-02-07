@@ -17,7 +17,7 @@ export default function Sidebar(props) {
     return (
         <Stack gap={1}>
             <input placeholder="Search..."></input>
-            {userToken && <Button variant="primary" onClick={() => navigate("/products/add")}>>Add new product to trade</Button>}
+            {userToken && <Button variant="primary" onClick={() => navigate("/products/add")}>Add new product to trade</Button>}
             <br />
             {productList}
         </Stack>
