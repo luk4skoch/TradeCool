@@ -58,9 +58,9 @@ In the future, this app will be dockerized.
 
 ### Screenshots
 ![The start-up page.](tradecool_home.png)
-![When the user is logged in, he has the chance to delete or edit their product.](trdecool_logged_in_product_owner.png)
-![When the user is logged in, he can view and chat to trade!](trdecool_logged_in_not_product_owner.png)
-![When the user is logged in, he can chat!](trdecool_chat.png)
+![When the user is logged in, he has the chance to delete or edit their product.](tradecool_logged_in_product_owner.png)
+![When the user is logged in, he can view and chat to trade!](tradecool_logged_in_not_product_owner.png)
+![When the user is logged in, he can chat!](tradecool_chat.png)
 
 
 
