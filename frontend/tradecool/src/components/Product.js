@@ -70,7 +70,7 @@ export default function Product(props) {
           <Button variant="success">
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={"/chat/" + userId + "/" + productId + "/" + product.user.id}
+              to={userToken ? "/chat/" + userId + "/" + productId + "/" + product.user.id : "/login"}
             >
               Trade!
             </Link>
