@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState();
 
   function registerUser(e) {
     console.log("registering...");
@@ -31,7 +31,12 @@ export default function Register() {
   }
   return (
     <div className="form-groups">
-      <Form onSubmit={registerUser} >
+      {errors && (
+        <Alert key={"warning"} variant={"warning"}>
+          {errors}
+        </Alert>
+      )}
+      <Form onSubmit={registerUser}>
         <h3>Sign up</h3>
         <Form.Group className="mb-3" controlId="regName">
           <Form.Label>Username</Form.Label>
