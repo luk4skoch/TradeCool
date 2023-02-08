@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -25,12 +26,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
 
     private RsaKeyProperties rsaKeys;
@@ -45,10 +48,9 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        config.setAllowedMethods(Collections.singletonList("*"));
+                        config.setAllowedOrigins(Collections.singletonList("*"));
                         config.setAllowedHeaders(Collections.singletonList("*"));
-                        config.setAllowCredentials(true);
+                        config.setAllowedMethods(Collections.singletonList("*"));
                         config.setMaxAge(3600L);
                         return config;
                     }
@@ -57,7 +59,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.requestMatchers("/api/products/**","/auth/**").permitAll();
+                            auth.requestMatchers("/api/products/**", "/auth/**", "/message/**", "/api/user/**").permitAll();
                             auth.requestMatchers("/admin/*").hasRole(RoleType.ADMIN.name());
                             auth.anyRequest().authenticated();
                         })
@@ -79,9 +81,18 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/auth/**").allowedOrigins("http://localhost:3000");
+//            }
+//        };
+//    }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 }

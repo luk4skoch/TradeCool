@@ -31,6 +31,10 @@ public class AuthService {
         for (RoleType roleType : roleTypes) {
             Optional<Role> role = roleRepository.findByType(roleType);
             if (role.isPresent()) roles.add(role.get());
+            else {
+                Role createdRole = roleRepository.save(Role.builder().type(roleType).build());
+                roles.add(createdRole);
+            }
         }
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

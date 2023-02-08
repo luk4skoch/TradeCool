@@ -5,7 +5,7 @@ import Stack from "react-bootstrap/Stack";
 import { useUserTokenContext } from "../context/UserTokenContext";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { secFetch } from "./utils/FetchUtils";
+import { API } from "../const/AppConstants";
 export default function EditProduct(props) {
   const userToken = useUserTokenContext();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function EditProduct(props) {
         method: "GET",
         redirect: "follow",
       };
-      fetch("http://localhost:8080/api/products/" + productId, requestOptions)
+      fetch(API + "/api/products/" + productId, requestOptions)
         .then((response) => response.json())
         .then((result) => setFormData({ ...result }))
         .catch((error) => console.log("error", error));
@@ -81,7 +81,9 @@ export default function EditProduct(props) {
   };
 
   const sendFormData = () => {
-    let url = "/api/products";
+    let headers = new Headers();
+    headers.append("Authorization", "Bearer " + userToken);
+    let url = API + "/api/products";
     let formDataToSend = new FormData();
     const json = JSON.stringify(formData);
     const blob = new Blob([json], {
@@ -103,14 +105,16 @@ export default function EditProduct(props) {
       method = "POST";
     }
 
-    secFetch(url, method, formDataToSend)
-      .then((data) => {
-        if (data instanceof Error) {
-          navigate("/login");
-        }
-        return data.json();
-      })
-      .then((data) => console.log(data))
+    fetch(url, {
+      method: method,
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: headers,
+      referrerPolicy: "no-referrer",
+      body: formDataToSend,
+    })
+      .then((data) => data.json().then((data) => console.log(data)))
       .then(() => navigate("/products"))
       .catch((err) => console.error(err));
   };
@@ -127,7 +131,9 @@ export default function EditProduct(props) {
         data-category={category.name}
         onClick={(event) => handleDeleteCategory(event)}
       >
-        <span role="img">❌</span>
+        <span role="img" aria-label="Remove Category Tag">
+          ❌
+        </span>
       </button>
     </div>
   ));
@@ -149,7 +155,9 @@ export default function EditProduct(props) {
         className="btn btn-sm mx-2"
         onClick={() => handleDeleteImage(image.id)}
       >
-        ❌
+        <span role="img" aria-label="Delete Image">
+          ❌
+        </span>
       </button>
     </>
   ));

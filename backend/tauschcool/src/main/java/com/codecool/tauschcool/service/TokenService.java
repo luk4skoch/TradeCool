@@ -2,6 +2,7 @@ package com.codecool.tauschcool.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -14,9 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class TokenService {
     private final JwtEncoder jwtEncoder;
+    private final UserService userService;
 
-    public TokenService(JwtEncoder jwtEncoder) {
+    public TokenService(JwtEncoder jwtEncoder, UserService userService) {
         this.jwtEncoder = jwtEncoder;
+        this.userService = userService;
     }
 
     public String generateToken(Authentication authentication) {
@@ -31,6 +34,7 @@ public class TokenService {
                 //.expiresAt(now.plus(1, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope", scope)
+                .claim("userId", userService.getUserIdByEmail(authentication.getName()))
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

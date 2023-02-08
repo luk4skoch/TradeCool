@@ -54,14 +54,14 @@ Add your database name, user and password to the application.yml file. Then run 
 
 It will start the server on port 8080.
 
-In the future, this app will be dockerized. 
+In the future, this app will be dockerized.
 
 ### Screenshots
 
-<img src="tradecool_home.png" width="400">
-<img src="trdecool_logged_in_product_owner.png" width="400">
-<img src="tradecool_logged_in_not_product_owner.png" width="400">
-<img src="tradecool_chat.png" width="400">
+<img src="images/tradecool_home.png" width="400">
+<img src="images/tradecool_logged_in_product_owner.png" width="400">
+<img src="images/tradecool_logged_in_not_product_owner.png" width="400">
+<img src="images/tradecool_chat.png" width="400">
 
 
 ## Authors

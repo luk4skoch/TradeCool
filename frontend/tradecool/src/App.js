@@ -10,13 +10,12 @@ import Chat from "./components/Chat";
 import { UserTokenContextProvider } from "./context/UserTokenContext";
 import Product from "./components/Product";
 import EditProduct from "./components/EditProduct";
-import ErrorBoundary from "./components/pages/ErrorBoundery";
+import ErrorBoundary from "./components/pages/ErrorBoundary";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-
     children: [
       {
         errorElement: <ErrorBoundary />,
@@ -47,7 +46,6 @@ const router = createBrowserRouter([
               },
             ],
           },
-
           {
             path: "/login",
             element: <Login />,
@@ -65,7 +63,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
 export default function App() {
   return (
     <UserTokenContextProvider>

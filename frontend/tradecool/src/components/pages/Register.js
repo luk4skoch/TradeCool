@@ -3,45 +3,40 @@ import React from "react";
 import { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { API } from "../../const/AppConstants";
 export default function Register() {
   const navigate = useNavigate();
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState();
 
   function registerUser(e) {
     console.log("registering...");
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    console.log(formDataEntries);
-
-    fetch("http://localhost:8080/auth/signup", {
+    fetch(API + "/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formDataEntries),
-    })
-      .then((res) => {
-        if (res.ok) {
-          navigate("/login");
-        }
-        return res.text();
-      })
-      .then((res) => setErrors(res))
-      .catch((err) => setErrors(err));
+    }).then((res) => {
+      if (res.ok) {
+        navigate("/login");
+      } else {
+        res.text().then((result) => {
+          setErrors(result);
+        });
+      }
+    });
   }
-
   return (
     <div className="form-groups">
-      {errors ? <Alert>{errors}</Alert> : <br />}
-
-      <Form
-        onSubmit={registerUser}
-        onChange={() => {
-          setErrors(null);
-        }}
-      >
+      {errors && (
+        <Alert key={"warning"} variant={"warning"}>
+          {errors}
+        </Alert>
+      )}
+      <Form onSubmit={registerUser}>
         <h3>Sign up</h3>
         <Form.Group className="mb-3" controlId="regName">
           <Form.Label>Username</Form.Label>
@@ -54,6 +49,9 @@ export default function Register() {
         <Form.Group className="mb-3" controlId="regMail">
           <Form.Label>Email</Form.Label>
           <Form.Control
+            onChange={() => {
+              setErrors("");
+            }}
             name="email"
             type="email"
             placeholder="Enter your email"
