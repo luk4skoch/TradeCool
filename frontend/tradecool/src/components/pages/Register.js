@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { API } from "../../const/AppConstants";
 export default function Register() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState();
@@ -13,7 +13,7 @@ export default function Register() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    fetch("http://localhost:8080/auth/signup", {
+    fetch(API + "/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
