@@ -43,16 +43,16 @@ public class ProductEndPoint {
                 .orElseGet(() -> null);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("images")
     public Product addProduct(@RequestPart("images") MultipartFile[] images,
                               @RequestPart("product") Product product, Principal principal) {
-        User user = userRepository.findByEmail(principal.getName()).get();
+        User user = userRepository.findByEmail(principal.getName()).get();;
         product.setUser(user);
         return productService.saveProduct(product, images);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public Product addProductNoImages(@RequestPart("product") Product product, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).get();
@@ -61,14 +61,14 @@ public class ProductEndPoint {
     }
 
 
-    @PreAuthorize("@securityValidationService.isTheProductOwner(#product, #principal)")
+    //@PreAuthorize("@securityValidationService.isTheProductOwner(#product, #principal)")
     @PutMapping("images")
     public Product editProductById(@RequestPart("images") MultipartFile[] images,
                                    @RequestPart("product") Product product, Principal principal) {
         return productService.saveProduct(product, images);
     }
 
-    @PreAuthorize("@securityValidationService.isTheProductOwner(#product, #principal)")
+   // @PreAuthorize("@securityValidationService.isTheProductOwner(#product, #principal)")
     @PutMapping
     public Product editProductNoImages(@RequestPart("product") Product product, Principal principal) {
         return productService.saveProduct(product);
@@ -76,7 +76,7 @@ public class ProductEndPoint {
 
 
 
-    @PreAuthorize("hasRole('USER') and @securityValidationService.isTheProductOwner(#id, #principal)")
+    //@PreAuthorize("isAuthenticated() and @securityValidationService.isTheProductOwner(#id, #principal)")
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
