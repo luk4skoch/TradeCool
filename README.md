@@ -56,6 +56,14 @@ It will start the server on port 8080.
 
 In the future, this app will be dockerized. 
 
+### Screenshots
+![The start-up page.](tradecool_home.png)
+![When the user is logged in, he has the chance to delete or edit their product.](trdecool_logged_in_product_owner.png)
+![When the user is logged in, he can view and chat to trade!](trdecool_logged_in_not_product_owner.png)
+![When the user is logged in, he can chat!](trdecool_chat.png)
+
+
+
 ## Authors
 
 - [@AmiDevVienna](https://www.github.com/AmiDevVienna)
