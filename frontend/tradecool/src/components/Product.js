@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import React, { useEffect, useState } from "react";
-
+import { API } from "../const/AppConstants";
 import ImageCarousel from "./ImageCarousel";
 import { useUserTokenContext } from "../context/UserTokenContext";
 import { useParams } from "react-router";
@@ -29,7 +29,7 @@ export default function Product(props) {
       method: "GET",
       redirect: "follow",
     };
-    fetch("http://localhost:8080/api/products/" + productId, requestOptions)
+    fetch(API + "/api/products/" + productId, requestOptions)
       .then((response) => response.json())
       .then((result) => setProduct(result))
       .catch((error) => console.log("error", error));
@@ -38,7 +38,7 @@ export default function Product(props) {
     if (!window.confirm("Are you sure you want to delete this product?")) {
       return;
     }
-    let url = "http://localhost:8080/api/products/" + product.id;
+    let url = API + "/api/products/" + product.id;
     fetch(url, {
       method: "DELETE",
       mode: "cors",

@@ -5,7 +5,7 @@ import Stack from "react-bootstrap/Stack";
 import { useUserTokenContext } from "../context/UserTokenContext";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-
+import { API } from "../const/AppConstants";
 export default function EditProduct(props) {
   const userToken = useUserTokenContext();
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function EditProduct(props) {
         method: "GET",
         redirect: "follow",
       };
-      fetch("http://localhost:8080/api/products/" + productId, requestOptions)
+      fetch(API + "/api/products/" + productId, requestOptions)
         .then((response) => response.json())
         .then((result) => setFormData({ ...result }))
         .catch((error) => console.log("error", error));
@@ -83,7 +83,7 @@ export default function EditProduct(props) {
   const sendFormData = () => {
     let headers = new Headers();
     headers.append("Authorization", "Bearer " + userToken);
-    let url = "http://localhost:8080/api/products";
+    let url = API + "/api/products";
     let formDataToSend = new FormData();
     const json = JSON.stringify(formData);
     const blob = new Blob([json], {

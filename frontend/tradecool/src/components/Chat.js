@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../chat.css";
+import { API } from "../const/AppConstants";
 
 function Chat() {
   let tempDate;
@@ -68,7 +69,7 @@ function Chat() {
         receiverId: receiverId,
       }),
     };
-    fetch("http://localhost:8080/message", requestOptions)
+    fetch(API + "/message", requestOptions)
       .then((response) => response.json())
       .then((data) => this.setState({ postId: data.id }));
 
