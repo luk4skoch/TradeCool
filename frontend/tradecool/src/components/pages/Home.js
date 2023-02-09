@@ -8,7 +8,7 @@ export default function Home() {
     }}>
         <br/>
       <h1>Willkommen bei</h1>
-        <img src={logo} width="90%" alt={"logo"}/>
+        <img src={logo} width="65%" alt={"logo"}/>
     </div>
   );
 }

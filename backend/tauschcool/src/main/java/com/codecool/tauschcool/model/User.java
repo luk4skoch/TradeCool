@@ -1,5 +1,6 @@
 package com.codecool.tauschcool.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,25 +18,29 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "users",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private String username;
+
     @NaturalId
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     private String location;
 
-    private String imagePath;
 
     @NotBlank
     private String password;
+
+    private String imagePath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),

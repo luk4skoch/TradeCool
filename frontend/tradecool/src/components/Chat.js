@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../chat.css";
+import Button from "react-bootstrap/Button";
 import { backendAPI as API } from "../const/AppConstants";
 
 function Chat() {
@@ -220,7 +221,12 @@ function Chat() {
               }
             }}
           />
-          <button onClick={postMessage}>SEND</button>
+
+          <Button
+              className={"btn-sm"}
+              variant="success"
+              onClick={postMessage}
+          >SEND</Button>
         </div>
       </div>
     </div>

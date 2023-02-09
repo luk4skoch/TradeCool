@@ -13,25 +13,30 @@ export default function Register() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formDataEntries = Object.fromEntries(formData.entries());
-    let apiUrl = API + "/auth/signup";
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formDataEntries),
-    }).then((res) => {
-      if (res.ok) {
-        navigate("/login");
-      } else {
-        res.text().then((result) => {
-          setErrors(result);
-        });
-      }
-    });
+    if (formDataEntries.password === formDataEntries.passwordTest) {
+      let apiUrl = API + "/auth/signup";
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataEntries),
+      }).then((res) => {
+        if (res.ok) {
+          navigate("/login");
+        } else {
+          res.text().then((result) => {
+            setErrors(result);
+          });
+        }
+      });
+    } else {
+      setErrors("passwords dont match")
+    }
+
   }
   return (
-    <div className="form-groups">
+    <div className="form-groups" style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       {errors && (
         <Alert key={"warning"} variant={"warning"}>
           {errors}
@@ -45,6 +50,7 @@ export default function Register() {
             name="username"
             type="text"
             placeholder="Enter your username"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="regMail">
@@ -56,6 +62,7 @@ export default function Register() {
             name="email"
             type="email"
             placeholder="Enter your email"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="regLocation">
@@ -64,6 +71,7 @@ export default function Register() {
             name="location"
             type="text"
             placeholder="Enter your Location"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="regPW">
@@ -72,11 +80,12 @@ export default function Register() {
             name="password"
             type="password"
             placeholder="Enter your password"
+            required
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="regPWRepeat">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Repeat your password" />
+          <Form.Control name={"passwordTest"} type="password" placeholder="Repeat your password" required />
         </Form.Group>
         <Button variant="primary" type="submit">
           Sign up now

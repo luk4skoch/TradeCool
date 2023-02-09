@@ -77,7 +77,7 @@ export default function Product(props) {
                   : "/login"
               }
             >
-              Trade!
+              Chat!
             </Link>
           </Button>
         )}
@@ -86,7 +86,7 @@ export default function Product(props) {
   }
 
   return (
-    <Container>
+    <Container style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       <Row>
         <Col md={8}>
           <h3>{product.title}</h3>

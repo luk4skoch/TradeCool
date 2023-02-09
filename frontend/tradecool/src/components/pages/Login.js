@@ -31,7 +31,7 @@ export default function Login() {
           localStorage.setItem("userToken", token);
           setUserToken(token);
         });
-        navigate("/");
+        navigate("/home");
       } else {
         res.text().then((result) => {
           console.log(result);
@@ -52,7 +52,7 @@ export default function Login() {
           {errors}
         </Alert>
       )}
-      <div className="form-groups">
+      <div className="form-groups" style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
         <Form onSubmit={loginUser}>
           <h3>Sign in</h3>
           <Form.Group className="mb-3" controlId="authMail">

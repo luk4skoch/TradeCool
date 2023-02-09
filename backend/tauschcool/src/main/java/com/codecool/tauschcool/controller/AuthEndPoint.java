@@ -42,39 +42,15 @@ public class AuthEndPoint {
 
     @PostMapping("signup")
     public ResponseEntity signUp(@Valid @RequestBody User user){
-        ResponseEntity response = null;
-        try{
-            response = ResponseEntity
+        //ResponseEntity response = null;
+        //try{
+          return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(authService.createUserWithRoles(user, Set.of(RoleType.USER)));
-        }catch (Exception e){
-            response = bindExceptionCauseToResponse(e);
-        }
-        return response;
-    }
-
-    private ResponseEntity<String> bindExceptionCauseToResponse(Throwable exception) {
-        String[] exceptionDetails =
-                NestedExceptionUtils.getMostSpecificCause(exception)
-                        .getMessage().split(":");
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Signup error occured: " + exceptionDetails[exceptionDetails.length - 1]);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ResponseEntity<String> validationError(MethodArgumentNotValidException ex) {
-        BindingResult result = ex.getBindingResult();
-        final List<FieldError> fieldErrors = result.getFieldErrors();
-        String responseMessage = "User input validation error: ";
-        if (fieldErrors.size() > 0) {
-            for (FieldError err : fieldErrors) {
-                responseMessage += "\n" + err.getField() + ":" + err.getDefaultMessage();
-            }
-        }
-        return new ResponseEntity<>(responseMessage, HttpStatus.BAD_REQUEST);
+        //}catch (Exception e){
+          //  response = bindExceptionCauseToResponse(e);
+        //}
+        //return response;
     }
 
 

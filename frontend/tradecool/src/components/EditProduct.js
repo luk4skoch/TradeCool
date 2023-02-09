@@ -163,7 +163,7 @@ export default function EditProduct(props) {
     </>
   ));
   return (
-    <Container>
+    <Container style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       <Row>
         <Col md={8}>
           <input
