@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../chat.css";
 import { API } from "../const/AppConstants";
+import Button from "react-bootstrap/Button";
 
 function Chat() {
   let tempDate;
@@ -219,7 +220,12 @@ function Chat() {
               }
             }}
           />
-          <button onClick={postMessage}>SEND</button>
+
+          <Button
+              className={"btn-sm"}
+              variant="success"
+              onClick={postMessage}
+          >SEND</Button>
         </div>
       </div>
     </div>
