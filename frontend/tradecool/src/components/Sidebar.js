@@ -13,7 +13,7 @@ export default function Sidebar(props) {
     return <ProductBar product={product} key={product.id} />;
   });
   return (
-    <Stack gap={1}>
+    <Stack gap={1} style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       <input placeholder="Search..."></input>
       {userToken && (
         <Button variant="primary" onClick={() => navigate("/products/add")}>
