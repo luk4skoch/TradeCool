@@ -49,7 +49,6 @@ public class SecurityConfig {
                         config.setAllowedOrigins(Collections.singletonList("*"));
                         config.setAllowedHeaders(Collections.singletonList("*"));
                         config.setAllowedMethods(Collections.singletonList("*"));
-                        config.setMaxAge(3600L);
                         return config;
                     }
                 }).and()

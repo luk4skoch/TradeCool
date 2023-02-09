@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import { API } from "../../const/AppConstants";
+import { backendAPI as API } from "../../const/AppConstants";
 import Sidebar from "../Sidebar";
 import { Container, Row, Col } from "react-bootstrap";
 import { Outlet } from "react-router";
@@ -19,7 +19,9 @@ function Overview() {
   }, []);
 
   function fetchProducts() {
-    fetch(API + "/api/products")
+    console.log("Fetching from " + API);
+    let apiUrl = API + "/api/products";
+    fetch(apiUrl)
       .then((data) => data.json())
       .then((data) => setProducts(data));
   }

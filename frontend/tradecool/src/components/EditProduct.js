@@ -5,7 +5,7 @@ import Stack from "react-bootstrap/Stack";
 import { useUserTokenContext } from "../context/UserTokenContext";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { API } from "../const/AppConstants";
+import { backendAPI as API } from "../const/AppConstants";
 export default function EditProduct(props) {
   const userToken = useUserTokenContext();
   const navigate = useNavigate();
@@ -25,7 +25,8 @@ export default function EditProduct(props) {
         method: "GET",
         redirect: "follow",
       };
-      fetch(API + "/api/products/" + productId, requestOptions)
+      let apiUrl = API + "/api/products/";
+      fetch(apiUrl + productId, requestOptions)
         .then((response) => response.json())
         .then((result) => setFormData({ ...result }))
         .catch((error) => console.log("error", error));

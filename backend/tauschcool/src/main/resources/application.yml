@@ -6,6 +6,8 @@ spring:
 rsa:
   public-key: classpath:certs/public.pem
   private-key: classpath:certs/private.pem
+server:
+  port: 6015
 ---
 spring:
   config:

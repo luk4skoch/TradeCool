@@ -2,7 +2,7 @@ import React from "react";
 import { Alert, FormGroup, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useUserTokenUpdateContext } from "../../context/UserTokenContext";
-import { API } from "../../const/AppConstants";
+import { backendAPI as API } from "../../const/AppConstants";
 export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState();
@@ -24,7 +24,8 @@ export default function Login() {
       headers: headers,
       // redirect: 'follow'
     };
-    fetch(API + "/auth/signin", requestOptions).then((res) => {
+    let apiUrl = API + "/auth/signin";
+    fetch(apiUrl, requestOptions).then((res) => {
       if (res.ok) {
         res.text().then((token) => {
           localStorage.setItem("userToken", token);

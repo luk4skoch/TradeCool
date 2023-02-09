@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import React, { useEffect, useState } from "react";
-import { API } from "../const/AppConstants";
+import { backendAPI as API } from "../const/AppConstants";
 import ImageCarousel from "./ImageCarousel";
 import { useUserTokenContext } from "../context/UserTokenContext";
 import { useParams } from "react-router";
@@ -29,7 +29,8 @@ export default function Product(props) {
       method: "GET",
       redirect: "follow",
     };
-    fetch(API + "/api/products/" + productId, requestOptions)
+    let apiUrl = API + "/api/products/" + productId;
+    fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((result) => setProduct(result))
       .catch((error) => console.log("error", error));
@@ -70,7 +71,11 @@ export default function Product(props) {
           <Button variant="success">
             <Link
               style={{ textDecoration: "none", color: "white" }}
-              to={userToken ? "/chat/" + userId + "/" + productId + "/" + product.user.id : "/login"}
+              to={
+                userToken
+                  ? "/chat/" + userId + "/" + productId + "/" + product.user.id
+                  : "/login"
+              }
             >
               Trade!
             </Link>

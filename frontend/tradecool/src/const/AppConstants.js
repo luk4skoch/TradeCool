@@ -1,1 +1,1 @@
-export const API = "https://tradecool.micakovic.at";
+export const backendAPI = "https://tradecool.api.micakovic.at";

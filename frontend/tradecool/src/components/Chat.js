@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../chat.css";
-import { API } from "../const/AppConstants";
+import { backendAPI as API } from "../const/AppConstants";
 
 function Chat() {
   let tempDate;
@@ -39,9 +39,9 @@ function Chat() {
 
   function getMessages() {
     refreshReceiverId();
-    fetch(
-      `http://localhost:8080/message/${senderId}/${productId}/${receiverId}`
-    )
+    let apiUrl = `${API}/message/${senderId}/${productId}/${receiverId}`;
+
+    fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => setMessages(data));
   }
@@ -69,7 +69,8 @@ function Chat() {
         receiverId: receiverId,
       }),
     };
-    fetch(API + "/message", requestOptions)
+    let apiUrl = API + "/message";
+    fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((data) => this.setState({ postId: data.id }));
 
@@ -82,14 +83,14 @@ function Chat() {
 
   async function getSender() {
     let result;
-    await fetch(`http://localhost:8080/api/user/${senderId}`)
+    await fetch(`${API}/api/user/${senderId}`)
       .then((response) => response.json())
       .then((data) => (result = data));
     return result;
   }
 
   function getProduct() {
-    fetch(`http://localhost:8080/api/products/${productId}`)
+    fetch(`${API}/api/products/${productId}`)
       .then((response) => response.json())
       .then((data) => setProduct(data));
   }
@@ -178,7 +179,7 @@ function Chat() {
   }
 
   function fetchChatOptions() {
-    fetch(`http://localhost:8080/message/options/${senderId}/${productId}`)
+    fetch(`${API}/message/options/${senderId}/${productId}`)
       .then((response) => response.json())
       .then((data) => setOtherUsers(data));
   }
