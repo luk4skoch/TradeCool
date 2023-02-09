@@ -72,7 +72,7 @@ export default function Product(props) {
               style={{ textDecoration: "none", color: "white" }}
               to={userToken ? "/chat/" + userId + "/" + productId + "/" + product.user.id : "/login"}
             >
-              Trade!
+              Chat!
             </Link>
           </Button>
         )}
@@ -81,7 +81,7 @@ export default function Product(props) {
   }
 
   return (
-    <Container>
+    <Container style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       <Row>
         <Col md={8}>
           <h3>{product.title}</h3>
