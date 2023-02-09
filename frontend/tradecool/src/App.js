@@ -10,8 +10,7 @@ import Chat from "./components/Chat";
 import { UserTokenContextProvider } from "./context/UserTokenContext";
 import Product from "./components/Product";
 import EditProduct from "./components/EditProduct";
-import ErrorBoundary from "./components/pages/ErrorBoundary";
-
+import ErrorBoundary from "./components/pages/ErrorBoundery";
 const router = createBrowserRouter([
   {
     path: "/",
