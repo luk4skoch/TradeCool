@@ -14,7 +14,8 @@ export default function ImageCarousel(props) {
                 <img
                     className="d-block"
                     src={image ? "data:" + image.type + ";base64," + image.imageData : "https://placehold.it/"}
-                    width="90%"
+                    width="400px"
+                    height="400px"
                     alt="product"
                 />
             </Carousel.Item>
