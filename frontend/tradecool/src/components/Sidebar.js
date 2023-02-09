@@ -34,18 +34,6 @@ export default function Sidebar(props) {
         return <ProductBar product={product} key={product.id}/>;
     });
     return (
-        <Stack gap={1}>
-            <input placeholder="Search..." value={search} onChange={(event) => startSearch(event)}></input>
-            {userToken && (
-                <Button variant="primary" onClick={() => navigate("/products/add")}>
-                    Add new product to trade
-                </Button>
-            )}
-            <br/>
-            {productList}
-        </Stack>
-    );
-    return (
         <Stack gap={1} style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
             <input
             placeholder="Search..." value={search} onChange={(event) => startSearch(event)}></input>
