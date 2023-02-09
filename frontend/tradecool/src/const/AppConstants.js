@@ -1,1 +1,1 @@
-export const API = "https://tradecool.micakovic.at";
+export const API = "http://localhost:8080";
