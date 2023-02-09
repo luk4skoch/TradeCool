@@ -35,7 +35,7 @@ export default function Register() {
 
   }
   return (
-    <div className="form-groups">
+    <div className="form-groups" style={{backgroundColor: "rgba(255, 255, 255, 0.7)", borderRadius: 20, padding: 20}}>
       {errors && (
         <Alert key={"warning"} variant={"warning"}>
           {errors}
